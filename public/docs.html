@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Docs — StockFi</title>
+<meta name="description" content="StockFi API docs: Preflight and Reopen Risk endpoints, x402 payment on Robinhood Chain, reason codes, response hashes and pricing." />
+<meta property="og:title" content="Docs — StockFi" />
+<meta property="og:description" content="StockFi API docs: Preflight and Reopen Risk endpoints, x402 payment on Robinhood Chain, reason codes, response hashes and pricing." />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="StockFi" />
+<meta property="og:url" content="https://stockfi.trade/docs" />
+<meta property="og:image" content="https://stockfi.trade/og.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="StockFi: Check a Stock Token before you trade. Sample CAUTION result." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@stockfi402" />
+<meta name="twitter:title" content="Docs — StockFi" />
+<meta name="twitter:description" content="StockFi API docs: Preflight and Reopen Risk endpoints, x402 payment on Robinhood Chain, reason codes, response hashes and pricing." />
+<meta name="twitter:image" content="https://stockfi.trade/og.png" />
+<meta name="theme-color" content="#F4F6F2" />
+<link rel="canonical" href="https://stockfi.trade/docs" />
+<link rel="icon" href="/favicon.ico" sizes="32x32" />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<link rel="manifest" href="/site.webmanifest" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@500;600&family=Outfit:wght@600;700&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+<div class="wrap">
+<header class="nav">
+  <a class="wordmark" href="/" aria-label="StockFi home"><span class="mark">S</span>StockFi</a>
+  <nav class="nav-links" aria-label="Main">
+    <a href="/preflight">Preflight</a>
+    <a href="/reopen-risk">Reopen Risk</a>
+    <a href="/docs" aria-current="page">Docs</a>
+    <a href="/docs#pricing">Pricing</a>
+  </nav>
+  <a class="btn btn-dark" href="/docs#pay">Pay with x402</a>
+</header>
+<main>
+<article class="doc">
+  <p class="kicker" style="margin-top:8px">Docs</p>
+  <h1 style="font-size:40px;margin-top:6px">Two read-only APIs, paid per call.</h1>
+  <p>StockFi answers two questions about Robinhood Chain Stock Tokens with public data only: the Robinhood Stock Token API, onchain reads on chain 4663 (Chainlink, Uniswap v3, the token contracts), and Longbow's public read-only MCP. Every call is paid in USDG over <a href="https://x402.org" rel="noopener">x402</a>. There are no accounts and no API keys. Machine-readable spec: <a href="/openapi.json"><code>/openapi.json</code></a>.</p>
+  <p><strong>Data checks only.</strong> Not investment advice, not a recommendation to trade or borrow, and not an offer or solicitation. Stock Tokens are not intended for U.S. persons and are not available to U.S. persons. StockFi never holds funds or keys, never signs, never sends a transaction and never routes a swap or a borrow.</p>
+
+  <h2 id="try">Try a call</h2>
+  <p>Without a payment, every endpoint answers <code>402 Payment Required</code> with the price, the payee and the asset. Bad input answers <code>400</code> first, so a malformed request is never charged.</p>
+<pre><code>curl -i "https://stockfi.trade/v1/preflight?symbol=AAPL"
+
+HTTP/2 402
+PAYMENT-REQUIRED: eyJ4NDAyVmVyc2lvbiI6Mi…   (base64 JSON, same as the body)
+
+{"x402Version":2,"accepts":[{"scheme":"exact","network":"eip155:4663",
+  "amount":"20000","asset":"0x5fc5360D0400a0Fd4f2af552ADD042D716F1d168",
+  "payTo":"0xc32A9e2f1092F1D57D3267C2E70b80DA9De06D59",
+  "extra":{"name":"Global Dollar","version":"1"}}], …}</code></pre>
+
+  <h2 id="pay">Paying with x402</h2>
+  <ol>
+    <li>Read the requirements from the 402 (USDG, 6 decimals, on Robinhood Chain, <code>eip155:4663</code>).</li>
+    <li>Sign an EIP-3009 <code>TransferWithAuthorization</code> for exactly <code>amount</code> to <code>payTo</code> with your own wallet.</li>
+    <li>Repeat the request with the base64 payload in <code>PAYMENT-SIGNATURE</code> (v1 clients may send <code>X-PAYMENT</code>).</li>
+  </ol>
+  <p>StockFi verifies the authorization through <a href="https://x402fi.dev/developers" rel="noopener">x402Fi's public facilitator</a>, runs the checks, and settles <em>only after</em> the result is ready. If the checks cannot run, you are not charged (<code>503</code>, <code>charged: false</code>). If settlement fails (an expired or reused authorization), no result is returned. USDG moves from your wallet straight to the StockFi service wallet; nobody in between holds it.</p>
+  <p>You can also buy the same calls through the StockFi listing on <a href="https://x402fi.dev/discovery" rel="noopener">x402Fi</a>, the dedicated x402 marketplace on Robinhood Chain, which adds a public receipt for each payment.</p>
+
+  <h2 id="receipts">Receipts and response hashes</h2>
+  <p>Every paid <code>200</code> body is canonical JSON (object keys sorted, no whitespace). Its SHA-256 is in <code>X-Response-SHA256</code> (hex) and <code>Content-Digest</code> (RFC 9530). The settlement result, including the transaction hash, is in <code>PAYMENT-RESPONSE</code>. Keep all three and the call is reproducible evidence of what you paid for and what you got.</p>
+
+  <h2 id="preflight">GET /v1/preflight</h2>
+  <p>One call before a swap into or out of a Stock Token. Returns <code>GO</code>, <code>CAUTION</code> or <code>STOP</code>: <code>STOP</code> if any STOP rule fires, <code>CAUTION</code> if any CAUTION rule fires, <code>GO</code> only when every check passes. The facts are always included, so you can ignore the verdict and use the data.</p>
+  <div class="table-scroll"><table>
+    <tr><th>Param</th><th>Notes</th></tr>
+    <tr><td><code>address</code></td><td>Stock Token contract on chain 4663. Wins over <code>symbol</code>; <code>symbol</code> is then a consistency check.</td></tr>
+    <tr><td><code>symbol</code></td><td>Underlying ticker, no X prefix (<code>AAPL</code>).</td></tr>
+    <tr><td><code>side</code></td><td><code>buy</code> (default) or <code>sell</code>.</td></tr>
+    <tr><td><code>sizeUsdg</code></td><td>Notional. Adds a Uniswap v3 route and price-impact quote and the $0.05 price. Also at <code>/v1/preflight/quote</code>.</td></tr>
+    <tr><td><code>venue</code></td><td>Hint only: <code>uniswap</code>, <code>rfq</code>, <code>any</code>. Nothing is executed.</td></tr>
+  </table></div>
+  <h3>Reason codes</h3>
+  <div class="table-scroll"><table>
+    <tr><th>Code</th><th>Severity</th><th>When</th></tr>
+    <tr><td><code>LOOKALIKE_OR_NOT_CANONICAL</code></td><td>STOP</td><td>Address is not the official deployment in the Robinhood asset registry, or a matching ticker sits at a different address.</td></tr>
+    <tr><td><code>NOT_ON_ROBINHOOD_CHAIN</code></td><td>STOP</td><td>The asset has no deployment on chain 4663.</td></tr>
+    <tr><td><code>ASSET_INACTIVE</code></td><td>STOP</td><td>Registry status is not active.</td></tr>
+    <tr><td><code>TRADING_HALT</code></td><td>STOP</td><td>The underlier is halted.</td></tr>
+    <tr><td><code>SESSION_CLOSED</code></td><td>CAUTION</td><td>The underlier is outside a tradable US-equity session. Onchain swaps can still happen.</td></tr>
+    <tr><td><code>PENDING_MULTIPLIER</code></td><td>CAUTION</td><td>A corporate-action multiplier change is scheduled (registry or onchain <code>newUIMultiplier</code>).</td></tr>
+    <tr><td><code>ORACLE_PAUSED</code></td><td>CAUTION</td><td>The token reports <code>oraclePaused() = true</code>. Reported as <code>unavailable</code> when a token lacks the method.</td></tr>
+    <tr><td><code>WEEKEND_FEED_FREEZE</code></td><td>CAUTION</td><td>Chainlink Stock Token feeds run 24/5 and freeze on weekends and holidays while the token trades. Expected.</td></tr>
+    <tr><td><code>STALE_FEED</code></td><td>CAUTION</td><td>Feed older than 30 minutes in the regular session, or past its heartbeat otherwise.</td></tr>
+    <tr><td><code>DEX_PREMIUM</code></td><td>CAUTION</td><td>Uniswap mid differs from Chainlink by more than 1%.</td></tr>
+    <tr><td><code>PRICE_IMPACT</code></td><td>CAUTION</td><td>Impact for <code>sizeUsdg</code> above 2%.</td></tr>
+    <tr><td><code>THIN_BOOK</code></td><td>CAUTION</td><td>The size does not fit the available onchain depth.</td></tr>
+    <tr><td><code>DATA_UNAVAILABLE</code></td><td>CAUTION</td><td>A required source could not be read for this call. Never treated as a pass.</td></tr>
+  </table></div>
+  <p>REST <code>bid</code>/<code>ask</code> are raw underlier prices; <code>bidPerToken</code>/<code>askPerToken</code> apply the current multiplier. Chainlink prices are already multiplier-adjusted and are never multiplied again.</p>
+
+  <h2 id="reopen-risk">GET /v1/reopen-risk</h2>
+  <p><code>?wallet=0x…</code> (required) and <code>report=snapshot|weekend</code>. Reads the wallet's Longbow positions (public MCP read tools only; onchain Morpho reads if the MCP is down) and, for each position backed by a Stock Token or a 24/5-priced RWA, projects the health factor at Monday's reopen:</p>
+  <ul>
+    <li><strong>mark_to_dex</strong> — today's Uniswap price as the Monday open.</li>
+    <li><strong>gap_down_20 / gap_down_40</strong> — 20% and 40% below the oracle price.</li>
+    <li><strong>gap_up_20 / gap_up_40</strong> — on the weekend report, and whenever the debt is not USDG.</li>
+  </ul>
+  <p>The weekend report (<code>/v1/reopen-risk/weekend</code>, $0.10) adds a short factual summary. When Guard is off and a scenario falls below 1.10, the position carries <code>suggestedGuard</code> as plain data, to be set by the owner in Longbow. A wallet with no positions returns <code>200</code> with <code>positions: []</code>. A number that cannot be computed is <code>null</code> with a note; it is never guessed. Information only; model risk applies.</p>
+
+  <h2 id="pricing">Pricing</h2>
+  <div class="pricing-grid">
+    <div class="price-card"><b>$0.02</b><span>Preflight checks</span></div>
+    <div class="price-card"><b>$0.05</b><span>Preflight + route quote</span></div>
+    <div class="price-card"><b>$0.03</b><span>Reopen Risk snapshot</span></div>
+    <div class="price-card"><b>$0.10</b><span>Reopen Risk weekend report</span></div>
+  </div>
+  <p>USDG on Robinhood Chain. Listed on x402Fi: listing is free and x402Fi takes 0%.</p>
+
+  <h2 id="source">Source and security</h2>
+  <p>Apache-2.0 at <a href="https://github.com/RWA-ID/stockfi" rel="noopener">github.com/RWA-ID/stockfi</a>. Report payment bugs privately through the repository's security advisories or contact@x402fi.dev.</p>
+</article>
+</main>
+<footer>
+  <div class="foot-top">
+    <div class="foot-links"><a href="https://stockfi.trade">stockfi.trade</a><span class="sep" aria-hidden="true"></span><a href="https://x402fi.dev" rel="noopener">x402fi.dev</a><span class="sep" aria-hidden="true"></span><a href="mailto:contact@stockfi.trade">contact@stockfi.trade</a></div>
+    <div class="foot-right">
+    <div class="social">
+      <a href="https://x.com/stockfi402" rel="noopener" aria-label="StockFi on X (@stockfi402)" title="@stockfi402"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77Z"/></svg></a>
+      <a href="https://github.com/RWA-ID/stockfi" rel="noopener" aria-label="StockFi source on GitHub" title="GitHub"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .5C5.65.5.5 5.65.5 12.02c0 5.09 3.29 9.4 7.86 10.93.58.1.79-.25.79-.56v-1.97c-3.2.7-3.87-1.54-3.87-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.76 2.69 1.25 3.35.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.8 1.19 1.83 1.19 3.09 0 4.42-2.69 5.39-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.53 11.53 0 0 0 23.5 12.02C23.5 5.65 18.35.5 12 .5Z"/></svg></a>
+    </div>
+    <a class="built-on" href="https://docs.robinhood.com/chain/" rel="noopener"><span>Built on</span><img src="/brand/robinhood-chain-logo-black.svg" alt="Robinhood Chain" width="152" height="20" /></a>
+    </div>
+  </div>
+  <nav class="legal-links" aria-label="Legal"><a href="/terms">Terms</a><a href="/privacy">Privacy</a><a href="/disclaimer">Disclaimer</a><a href="/openapi.json">OpenAPI</a><a href="https://github.com/RWA-ID/stockfi" rel="noopener">Source</a></nav>
+  <p class="legal">Data checks only. Not investment advice, not a recommendation, and not an offer. Stock Tokens are not intended for U.S. persons and are not available to U.S. persons. StockFi is independent and not affiliated with, endorsed by, or sponsored by Robinhood Markets, Inc. or its affiliates.</p>
+</footer>
+</div>
+<script src="/site.js" defer></script>
+</body>
+</html>

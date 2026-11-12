@@ -1,0 +1,13 @@
+{
+  "name": "StockFi",
+  "short_name": "StockFi",
+  "description": "Stock Token Preflight and Reopen Risk, paid per request over x402 on Robinhood Chain.",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#F4F6F2",
+  "theme_color": "#F4F6F2",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

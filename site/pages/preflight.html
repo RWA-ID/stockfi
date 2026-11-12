@@ -1,0 +1,63 @@
+---
+title: Preflight — StockFi
+desc: A sample Stock Token Preflight result: GO, CAUTION or STOP with reason codes and the underlying facts. Sample data; not investment advice.
+active: preflight
+---
+<section class="result-head">
+  <div class="row">Preflight result <span class="sample">Sample</span></div>
+  <p class="q">AAPL · buy · $5,000 · venue Uniswap · chain 4663</p>
+  <p class="meta">address&nbsp;&nbsp;0xA11E…C0DE&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp;canonical match on Robinhood Chain</p>
+</section>
+
+<section class="result-grid">
+  <div class="hero-card" style="min-height:400px">
+    <div class="card-head"><span class="sample">Sample</span>Preflight · AAPL · buy · $5,000</div>
+    <div class="display-verdict" style="font-size:clamp(56px,7vw,76px)">CAUTION</div>
+    <div class="verdicts"><span class="vchip">GO</span><span class="vchip on-caution">CAUTION</span><span class="vchip">STOP</span></div>
+    <div class="reasons" style="margin-top:14px"><span class="reason">WEEKEND_FEED_FREEZE</span><span class="reason">DEX_PREMIUM&nbsp;&nbsp;+1.40%</span></div>
+    <svg class="dots" data-cols="34" data-rows="4" aria-hidden="true"></svg>
+  </div>
+  <div class="panel">
+    <p class="kicker">Reason codes</p>
+    <div class="reason-row" style="margin-top:16px">
+      <div class="top"><span class="badge caution">CAUTION</span><span class="code">WEEKEND_FEED_FREEZE</span></div>
+      <p>Chainlink last updated Friday 16:00 ET. Feeds run 24/5 and freeze over the weekend while the token can still trade. Expected CAUTION, not a stale-feed failure.</p>
+    </div>
+    <div class="reason-row">
+      <div class="top"><span class="badge caution">CAUTION</span><span class="code">DEX_PREMIUM</span></div>
+      <p>Uniswap mid is 1.40% above the frozen Chainlink mark (caution threshold 1.00%). Price impact for $5,000 is 0.18% and the size fits.</p>
+    </div>
+  </div>
+</section>
+
+<section class="facts">
+  <div class="fact"><p class="kicker">Asset</p><dl>
+    <div class="r"><dt>Symbol</dt><dd>AAPL</dd></div>
+    <div class="r"><dt>Canonical</dt><dd>Yes</dd></div>
+    <div class="r"><dt>Status</dt><dd>ACTIVE</dd></div>
+    <div class="r"><dt>Multiplier</dt><dd>1.00</dd></div>
+    <div class="r"><dt>Pending</dt><dd>None</dd></div>
+  </dl></div>
+  <div class="fact"><p class="kicker">Market</p><dl>
+    <div class="r"><dt>Session</dt><dd>Weekend</dd></div>
+    <div class="r"><dt>Trading halt</dt><dd>No</dd></div>
+    <div class="r"><dt>Bid (underlier raw)</dt><dd>$226.90</dd></div>
+    <div class="r"><dt>Ask (underlier raw)</dt><dd>$227.20</dd></div>
+    <div class="r"><dt>Generated</dt><dd>Sample</dd></div>
+  </dl></div>
+  <div class="fact"><p class="kicker">Oracle</p><dl>
+    <div class="r"><dt>Chainlink</dt><dd>$227.14</dd></div>
+    <div class="r"><dt>Updated</dt><dd>Fri · 16:00 ET</dd></div>
+    <div class="r"><dt>Stale (session)</dt><dd>No</dd></div>
+    <div class="r"><dt>Weekend freeze</dt><dd>Yes</dd></div>
+    <div class="r"><dt>oraclePaused</dt><dd class="mono">unavailable</dd></div>
+  </dl></div>
+  <div class="fact"><p class="kicker">Route quote</p><dl>
+    <div class="r"><dt>Venue</dt><dd>Uniswap</dd></div>
+    <div class="r"><dt>DEX mid</dt><dd>$230.32</dd></div>
+    <div class="r"><dt>Premium</dt><dd>+1.40%</dd></div>
+    <div class="r"><dt>Impact ($5,000)</dt><dd>0.18%</dd></div>
+    <div class="r"><dt>Fits size</dt><dd>Yes</dd></div>
+  </dl></div>
+</section>
+<p class="band-note" style="margin-top:18px">Every figure on this page is Sample data. Live results come from <code class="mono">GET /v1/preflight</code> — see the <a href="/docs#preflight">docs</a>. A GO is a data check, not a statement that a trade is suitable.</p>

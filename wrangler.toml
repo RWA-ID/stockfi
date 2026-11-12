@@ -1,0 +1,40 @@
+name = "stockfi"
+main = "src/index.ts"
+compatibility_date = "2026-11-01"
+compatibility_flags = ["nodejs_compat"]
+workers_dev = true
+
+routes = [
+  { pattern = "stockfi.trade", custom_domain = true },
+]
+
+[assets]
+directory = "./public"
+binding = "ASSETS"
+run_worker_first = ["/v1/*", "/openapi.json", "/healthz"]
+html_handling = "auto-trailing-slash"
+not_found_handling = "404-page"
+
+[observability]
+enabled = true
+
+# Non-secret config. Secrets (wrangler secret put): ANTHROPIC_API_KEY, UPSTREAM_KEY, ROBINHOOD_RPC_URL
+[vars]
+PAY_TO = "0xc32A9e2f1092F1D57D3267C2E70b80DA9De06D59"
+PAYEE_NAME = ""
+PUBLIC_ORIGIN = "https://stockfi.trade"
+FACILITATOR_URL = "https://x402fi.dev/api/facilitator"
+PRICE_PREFLIGHT = "0.02"
+PRICE_PREFLIGHT_QUOTE = "0.05"
+PRICE_REOPEN = "0.03"
+PRICE_REOPEN_WEEKEND = "0.10"
+ROBINHOOD_API_BASE = "https://api.robinhood.com/rhj"
+LONGBOW_MCP_URL = "https://mcp.longbow.finance/mcp"
+STALE_FEED_MINUTES = "30"
+PREMIUM_CAUTION_BPS = "100"
+IMPACT_CAUTION_BPS = "200"
+THIN_BOOK_BPS = "1000"
+STRESS_PCTS = "20,40"
+SAFE_BUFFER_HF = "1.1"
+GUARD_SUGGEST_HF = "1.25"
+SUMMARY_MODEL = "claude-haiku-5-5"

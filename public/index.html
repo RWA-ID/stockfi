@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>StockFi</title>
+<meta name="description" content="Check a Robinhood Chain Stock Token before you trade, and see the Monday-gap risk on a Longbow loan. Paid per request in USDG over x402. Data only." />
+<meta property="og:title" content="StockFi" />
+<meta property="og:description" content="Check a Robinhood Chain Stock Token before you trade, and see the Monday-gap risk on a Longbow loan. Paid per request in USDG over x402. Data only." />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="StockFi" />
+<meta property="og:url" content="https://stockfi.trade/" />
+<meta property="og:image" content="https://stockfi.trade/og.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="StockFi: Check a Stock Token before you trade. Sample CAUTION result." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@stockfi402" />
+<meta name="twitter:title" content="StockFi" />
+<meta name="twitter:description" content="Check a Robinhood Chain Stock Token before you trade, and see the Monday-gap risk on a Longbow loan. Paid per request in USDG over x402. Data only." />
+<meta name="twitter:image" content="https://stockfi.trade/og.png" />
+<meta name="theme-color" content="#F4F6F2" />
+<link rel="canonical" href="https://stockfi.trade/" />
+<link rel="icon" href="/favicon.ico" sizes="32x32" />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<link rel="manifest" href="/site.webmanifest" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@500;600&family=Outfit:wght@600;700&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+<div class="wrap">
+<header class="nav">
+  <a class="wordmark" href="/" aria-label="StockFi home"><span class="mark">S</span>StockFi</a>
+  <nav class="nav-links" aria-label="Main">
+    <a href="/preflight">Preflight</a>
+    <a href="/reopen-risk">Reopen Risk</a>
+    <a href="/docs">Docs</a>
+    <a href="/docs#pricing">Pricing</a>
+  </nav>
+  <a class="btn btn-dark" href="/docs#pay">Pay with x402</a>
+</header>
+<main>
+<section class="hero">
+  <div>
+    <span class="pill-note">Listed on x402Fi · 0% marketplace fee</span>
+    <h1>Check a Stock Token<br />before you trade.</h1>
+    <p class="hero-sub">Know the Monday-gap risk on a loan.</p>
+    <p class="lede">Paid per request in USDG on Robinhood Chain. Data only — StockFi never holds funds, never signs, and never executes a trade or borrow.</p>
+    <div class="cta">
+      <a class="btn btn-dark" href="/docs#try">Try a call</a>
+      <a class="btn btn-light" href="/docs">Read the docs</a>
+    </div>
+  </div>
+  <a class="hero-card" href="/preflight" style="text-decoration:none;color:inherit" aria-label="Sample Preflight result">
+    <div class="card-head"><span class="sample">Sample</span>Preflight · AAPL · buy · $5,000</div>
+    <div class="display-verdict">CAUTION</div>
+    <div class="verdicts"><span class="vchip">GO</span><span class="vchip on-caution">CAUTION</span><span class="vchip">STOP</span></div>
+    <div class="reasons" style="margin-top:14px"><span class="reason">WEEKEND_FEED_FREEZE</span><span class="reason">DEX_PREMIUM&nbsp;&nbsp;+1.40%</span></div>
+    <svg class="dots" data-cols="34" data-rows="5" aria-hidden="true"></svg>
+  </a>
+</section>
+
+<section class="features">
+  <article class="feature green">
+    <p class="kicker">Preflight</p>
+    <h2>One paid call before a swap.</h2>
+    <p>A GO, CAUTION, or STOP from canonical address, trading halt and session, pending multiplier, Chainlink staleness, and DEX premium. A weekend feed freeze is expected CAUTION, not a generic failure.</p>
+    <div class="prices"><span><b>$0.02</b> checks only</span><span class="dot">·</span><span><b>$0.05</b> with a route quote</span></div>
+  </article>
+  <article class="feature pink">
+    <svg class="rings" viewBox="0 0 240 240" aria-hidden="true">
+      <circle cx="120" cy="120" r="118" fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="1.5" />
+      <circle cx="120" cy="120" r="88" fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="1.5" />
+      <circle cx="120" cy="120" r="58" fill="none" stroke="#fff" stroke-opacity=".8" stroke-width="1.5" />
+      <circle cx="120" cy="120" r="34" fill="none" stroke="#fff" stroke-width="2" />
+      <circle cx="120" cy="120" r="17" fill="#D1F38F" />
+    </svg>
+    <p class="kicker">Reopen Risk</p>
+    <h2>Monday-gap stress on a loan.</h2>
+    <p>A weekend-gap report for a Longbow loan that uses Stock Tokens as collateral. Read-only. We describe a suggested Guard as information only — we never build a transaction.</p>
+    <div class="prices"><span><b>$0.03</b> snapshot</span><span class="dot">·</span><span><b>$0.10</b> full weekend report</span></div>
+  </article>
+</section>
+
+<section class="band">
+  <div class="band-top">
+    <p class="kicker">How it works</p>
+    <div class="price-chips">
+      <span class="price-chip"><b>$0.02</b>Preflight checks</span>
+      <span class="price-chip"><b>$0.05</b>Preflight + quote</span>
+      <span class="price-chip"><b>$0.03</b>Reopen snapshot</span>
+      <span class="price-chip"><b>$0.10</b>Weekend report</span>
+    </div>
+  </div>
+  <div class="steps">
+    <div class="step"><span class="ic"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7h9M7.5 3.5 11 7l-3.5 3.5" stroke="#12160C" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><h3>Request the endpoint</h3><p>Call Preflight or Reopen Risk with a token or wallet.</p></div></div>
+    <div class="step"><span class="ic"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.2" stroke="#12160C" stroke-width="1.5" fill="none"/><path d="M9.8 5.9c-.3-.6-1-.9-1.8-.9-1 0-1.7.5-1.7 1.2 0 1.7 3.6.8 3.6 2.6 0 .7-.8 1.2-1.9 1.2-.9 0-1.6-.4-1.9-1M8 4v8" stroke="#12160C" stroke-width="1.3" fill="none" stroke-linecap="round"/></svg></span><div><h3>Pay USDG via x402</h3><p>Buyers pay the service wallet directly. We never hold funds.</p></div></div>
+    <div class="step"><span class="ic"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><rect x="2.5" y="1.5" width="9" height="11" rx="1.5" stroke="#12160C" stroke-width="1.5" fill="none"/><path d="M4.8 5h4.4M4.8 7.5h4.4M4.8 10h2.6" stroke="#12160C" stroke-width="1.3" stroke-linecap="round"/></svg></span><div><h3>Get a receipt</h3><p>A 2xx body plus a SHA-256 of the response, ready to keep.</p></div></div>
+  </div>
+  <p class="band-note">Listed on x402Fi, the dedicated x402 marketplace on Robinhood Chain. Listing is free, x402Fi takes 0%, and StockFi never holds funds.</p>
+</section>
+
+<section class="mobile-pricing" aria-label="Pricing">
+  <p class="kicker">Pricing</p>
+  <div class="pricing-grid" style="margin-top:12px">
+    <div class="price-card"><b>$0.02</b><span>Preflight checks</span></div>
+    <div class="price-card"><b>$0.05</b><span>Preflight + quote</span></div>
+    <div class="price-card"><b>$0.03</b><span>Reopen snapshot</span></div>
+    <div class="price-card"><b>$0.10</b><span>Weekend report</span></div>
+  </div>
+</section>
+</main>
+<footer>
+  <div class="foot-top">
+    <div class="foot-links"><a href="https://stockfi.trade">stockfi.trade</a><span class="sep" aria-hidden="true"></span><a href="https://x402fi.dev" rel="noopener">x402fi.dev</a><span class="sep" aria-hidden="true"></span><a href="mailto:contact@stockfi.trade">contact@stockfi.trade</a></div>
+    <div class="foot-right">
+    <div class="social">
+      <a href="https://x.com/stockfi402" rel="noopener" aria-label="StockFi on X (@stockfi402)" title="@stockfi402"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77Z"/></svg></a>
+      <a href="https://github.com/RWA-ID/stockfi" rel="noopener" aria-label="StockFi source on GitHub" title="GitHub"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .5C5.65.5.5 5.65.5 12.02c0 5.09 3.29 9.4 7.86 10.93.58.1.79-.25.79-.56v-1.97c-3.2.7-3.87-1.54-3.87-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.76 2.69 1.25 3.35.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.8 1.19 1.83 1.19 3.09 0 4.42-2.69 5.39-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.53 11.53 0 0 0 23.5 12.02C23.5 5.65 18.35.5 12 .5Z"/></svg></a>
+    </div>
+    <a class="built-on" href="https://docs.robinhood.com/chain/" rel="noopener"><span>Built on</span><img src="/brand/robinhood-chain-logo-black.svg" alt="Robinhood Chain" width="152" height="20" /></a>
+    </div>
+  </div>
+  <nav class="legal-links" aria-label="Legal"><a href="/terms">Terms</a><a href="/privacy">Privacy</a><a href="/disclaimer">Disclaimer</a><a href="/openapi.json">OpenAPI</a><a href="https://github.com/RWA-ID/stockfi" rel="noopener">Source</a></nav>
+  <p class="legal">Data checks only. Not investment advice, not a recommendation, and not an offer. Stock Tokens are not intended for U.S. persons and are not available to U.S. persons. StockFi is independent and not affiliated with, endorsed by, or sponsored by Robinhood Markets, Inc. or its affiliates.</p>
+</footer>
+</div>
+<script src="/site.js" defer></script>
+</body>
+</html>

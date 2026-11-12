@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Terms of Service — StockFi</title>
+<meta name="description" content="The terms for using StockFi's Preflight and Reopen Risk APIs and website." />
+<meta property="og:title" content="Terms of Service — StockFi" />
+<meta property="og:description" content="The terms for using StockFi's Preflight and Reopen Risk APIs and website." />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="StockFi" />
+<meta property="og:url" content="https://stockfi.trade/terms" />
+<meta property="og:image" content="https://stockfi.trade/og.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="StockFi: Check a Stock Token before you trade. Sample CAUTION result." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@stockfi402" />
+<meta name="twitter:title" content="Terms of Service — StockFi" />
+<meta name="twitter:description" content="The terms for using StockFi's Preflight and Reopen Risk APIs and website." />
+<meta name="twitter:image" content="https://stockfi.trade/og.png" />
+<meta name="theme-color" content="#F4F6F2" />
+<link rel="canonical" href="https://stockfi.trade/terms" />
+<link rel="icon" href="/favicon.ico" sizes="32x32" />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<link rel="manifest" href="/site.webmanifest" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@500;600&family=Outfit:wght@600;700&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+<div class="wrap">
+<header class="nav">
+  <a class="wordmark" href="/" aria-label="StockFi home"><span class="mark">S</span>StockFi</a>
+  <nav class="nav-links" aria-label="Main">
+    <a href="/preflight">Preflight</a>
+    <a href="/reopen-risk">Reopen Risk</a>
+    <a href="/docs">Docs</a>
+    <a href="/docs#pricing">Pricing</a>
+  </nav>
+  <a class="btn btn-dark" href="/docs#pay">Pay with x402</a>
+</header>
+<main>
+<article class="doc">
+  <p class="kicker" style="margin-top:8px">Legal</p>
+  <h1 style="font-size:40px;margin-top:6px">Terms of Service</h1>
+  <p>Effective November 12, 2026.</p>
+  <p>These Terms of Service (“Terms”) govern your use of StockFi at stockfi.trade, including its website, the Preflight and Reopen Risk APIs, and related documentation (together, the “Service”). The Service is operated by Only Buy Bitcoin LLC, a Delaware limited liability company (“we”, “us”). By using the Service or paying for a call, you agree to these Terms. If you do not agree, do not use the Service.</p>
+
+  <h2>1. What StockFi is</h2>
+  <p>StockFi provides read-only data checks about Robinhood Chain Stock Tokens and about loans on Longbow that use Stock Tokens as collateral. It reads public sources only: the public Robinhood Stock Token API, public onchain data on Robinhood Chain (including Chainlink price feeds, Uniswap v3 pools and the token contracts) and Longbow's public read-only interface. Each call is paid per request in USDG over the open x402 standard.</p>
+  <p>StockFi is <strong>data only</strong>. It does not execute, route, arrange or recommend any trade, swap, loan, repayment or other transaction. It never holds funds or keys, never signs and never sends a transaction for you. A verdict such as <code>GO</code>, <code>CAUTION</code> or <code>STOP</code> is the result of automated data checks with stated reason codes. It is not a statement that a trade, a token or a position is suitable, safe or advisable. See the <a href="/disclaimer">Disclaimer</a>.</p>
+
+  <h2>2. Eligibility and restricted persons</h2>
+  <ul>
+    <li><strong>Not available to U.S. persons.</strong> Robinhood Stock Tokens are not intended for distribution to U.S. persons, and the Service is not offered to U.S. persons. By using the Service you represent that you are not a U.S. person and are not acting on behalf of one.</li>
+    <li>You must be at least 18 years old and able to form a binding contract.</li>
+    <li>You may not use the Service if you are located in, or a national or resident of, a country or region subject to comprehensive sanctions, or if you are on any sanctions list maintained by the United States, the United Nations, the European Union or the United Kingdom.</li>
+    <li>You are responsible for complying with the laws that apply to you, including any rules on tokenized securities, stablecoins and lending.</li>
+  </ul>
+  <p>We do not collect identity or jurisdiction information. These representations and the disclaimers on every page and response are the controls we rely on.</p>
+
+  <h2>3. Payments</h2>
+  <ul>
+    <li>Each endpoint answers an unpaid request with HTTP 402 and the exact price, token (USDG), network (Robinhood Chain, eip155:4663) and recipient. A payment authorization you sign lets that exact amount move once, to that recipient, before it expires.</li>
+    <li>Payments move directly from your wallet to StockFi's service wallet under your own signed authorization. Payments are verified and settled through x402Fi's public facilitator, an independent service operated by us under the x402Fi name.</li>
+    <li>A payment is settled only after the requested result is ready. If the checks cannot run, the authorization is not used and you are not charged. If settlement fails, no result is returned.</li>
+    <li>Settled payments are final and cannot be reversed by us. Prices are shown in the 402 response and in the <a href="/docs#pricing">docs</a> and may change for future calls.</li>
+    <li>If you buy calls through the StockFi listing on x402Fi, x402Fi's own terms also apply to that purchase.</li>
+  </ul>
+
+  <h2>4. Your use of the data</h2>
+  <p>You may use the responses you pay for in your own products and decisions, including automated agents. You are solely responsible for any decision or transaction you make, whether or not it relies on the Service. Responses describe public data at a point in time; markets, oracle feeds, pools and positions change continuously.</p>
+
+  <h2>5. Prohibited use</h2>
+  <p>You may not use the Service to break any law; to facilitate fraud, market manipulation, money laundering, sanctions evasion or other financial crime; to offer, market or solicit Stock Tokens to U.S. persons; to present StockFi output as investment advice or as an endorsement by us, Robinhood or Longbow; to attack, overload or interfere with the Service or its data sources; or to resell or re-serve the Service except as permitted in writing.</p>
+
+  <h2>6. Third parties</h2>
+  <p>The Service relies on third parties we do not control, including Robinhood Chain, the Robinhood Stock Token API, Chainlink, Uniswap, Longbow, the USDG stablecoin, x402Fi, RPC providers, Cloudflare and Anthropic (used only to write short prose summaries in the weekend report from figures we have already computed). Their availability, accuracy and terms are their own. StockFi is independent and is not affiliated with, endorsed by or sponsored by Robinhood Markets, Inc. or its affiliates, or by Longbow.</p>
+
+  <h2>7. Intellectual property</h2>
+  <p>StockFi's source code is published under the Apache License 2.0. The StockFi name, design and site content belong to us. Third-party names and marks, including the Robinhood Chain logo, belong to their owners and are used only to identify the network the Service reads.</p>
+
+  <h2>8. Disclaimers</h2>
+  <p>THE SERVICE AND ALL DATA ARE PROVIDED “AS IS” AND “AS AVAILABLE”, WITHOUT WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING ACCURACY, COMPLETENESS, TIMELINESS, MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. We do not warrant that any verdict, price, health factor or scenario is correct or that the Service will be uninterrupted or error-free. Scenario outputs are models, not forecasts.</p>
+
+  <h2>9. Limitation of liability</h2>
+  <p>TO THE FULLEST EXTENT PERMITTED BY LAW, ONLY BUY BITCOIN LLC AND ITS MEMBERS, OFFICERS, EMPLOYEES AND AGENTS WILL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, EXEMPLARY OR PUNITIVE DAMAGES, OR FOR ANY TRADING OR LIQUIDATION LOSSES, LOSS OF PROFITS, REVENUE, DATA, DIGITAL ASSETS OR GOODWILL, ARISING FROM OR RELATED TO THE SERVICE. OUR TOTAL LIABILITY FOR ANY CLAIM WILL NOT EXCEED THE GREATER OF THE AMOUNT YOU PAID FOR THE SERVICE IN THE 30 DAYS BEFORE THE CLAIM OR ONE HUNDRED U.S. DOLLARS (US$100). Some jurisdictions do not allow certain limitations, so some of these may not apply to you.</p>
+
+  <h2>10. Indemnity</h2>
+  <p>You will defend, indemnify and hold harmless Only Buy Bitcoin LLC from any claims, losses and expenses (including reasonable legal fees) arising from your use of the Service, your decisions or transactions, or your breach of these Terms or any law.</p>
+
+  <h2>11. Suspension</h2>
+  <p>We may change, suspend or discontinue the Service, or block any wallet or request, at any time. Payments already settled onchain cannot be undone.</p>
+
+  <h2>12. Governing law and disputes</h2>
+  <p>These Terms are governed by the laws of the State of Delaware, USA, without regard to its conflict-of-laws rules. Any dispute will be brought exclusively in the state or federal courts located in Delaware, and you consent to their jurisdiction. Before filing a claim, you agree to contact us at <a href="mailto:contact@stockfi.trade">contact@stockfi.trade</a> and try in good faith to resolve it informally for 30 days.</p>
+
+  <h2>13. Changes</h2>
+  <p>We may update these Terms. We will change the effective date above. Continued use after changes take effect means you accept them.</p>
+
+  <h2>14. Contact</h2>
+  <p>Only Buy Bitcoin LLC · <a href="mailto:contact@stockfi.trade">contact@stockfi.trade</a></p>
+</article>
+</main>
+<footer>
+  <div class="foot-top">
+    <div class="foot-links"><a href="https://stockfi.trade">stockfi.trade</a><span class="sep" aria-hidden="true"></span><a href="https://x402fi.dev" rel="noopener">x402fi.dev</a><span class="sep" aria-hidden="true"></span><a href="mailto:contact@stockfi.trade">contact@stockfi.trade</a></div>
+    <div class="foot-right">
+    <div class="social">
+      <a href="https://x.com/stockfi402" rel="noopener" aria-label="StockFi on X (@stockfi402)" title="@stockfi402"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77Z"/></svg></a>
+      <a href="https://github.com/RWA-ID/stockfi" rel="noopener" aria-label="StockFi source on GitHub" title="GitHub"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .5C5.65.5.5 5.65.5 12.02c0 5.09 3.29 9.4 7.86 10.93.58.1.79-.25.79-.56v-1.97c-3.2.7-3.87-1.54-3.87-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.76 2.69 1.25 3.35.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.8 1.19 1.83 1.19 3.09 0 4.42-2.69 5.39-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.53 11.53 0 0 0 23.5 12.02C23.5 5.65 18.35.5 12 .5Z"/></svg></a>
+    </div>
+    <a class="built-on" href="https://docs.robinhood.com/chain/" rel="noopener"><span>Built on</span><img src="/brand/robinhood-chain-logo-black.svg" alt="Robinhood Chain" width="152" height="20" /></a>
+    </div>
+  </div>
+  <nav class="legal-links" aria-label="Legal"><a href="/terms">Terms</a><a href="/privacy">Privacy</a><a href="/disclaimer">Disclaimer</a><a href="/openapi.json">OpenAPI</a><a href="https://github.com/RWA-ID/stockfi" rel="noopener">Source</a></nav>
+  <p class="legal">Data checks only. Not investment advice, not a recommendation, and not an offer. Stock Tokens are not intended for U.S. persons and are not available to U.S. persons. StockFi is independent and not affiliated with, endorsed by, or sponsored by Robinhood Markets, Inc. or its affiliates.</p>
+</footer>
+</div>
+<script src="/site.js" defer></script>
+</body>
+</html>

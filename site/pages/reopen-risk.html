@@ -1,0 +1,61 @@
+---
+title: Reopen Risk — StockFi
+desc: A sample Reopen Risk weekend report for a Longbow loan backed by a Stock Token. Information only; StockFi never builds a transaction.
+active: reopen
+---
+<section class="result-head">
+  <div class="row">Reopen Risk · weekend report <span class="sample">Sample</span></div>
+  <p class="meta" style="font-size:13px;color:var(--ink);margin-top:8px">Wallet&nbsp;&nbsp;0x7C3A…91B2&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp;collateral AAPL Stock Token&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp;debt USDG&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp;chain 4663</p>
+</section>
+
+<section class="result-grid" style="grid-template-columns:1.05fr 1fr">
+  <div class="hero-card hf-card">
+    <div style="font-size:15px;font-weight:600">Current health factor</div>
+    <div class="hf-row">
+      <div>
+        <div class="display-hf">1.42</div>
+        <div class="sub"><span>Liquidation at 1.00</span><span>·</span><span>29.6% headroom</span><span>·</span><span>Sample</span></div>
+      </div>
+      <svg class="dots" data-cols="18" data-rows="6" aria-hidden="true"></svg>
+    </div>
+    <div class="chips-row"><span class="tchip gold">Weekend freeze on</span><span class="tchip rose">Guard off</span><span class="tchip white">Mark-to-DEX 1.38</span></div>
+  </div>
+  <div class="panel context">
+    <p class="kicker">Weekend context</p>
+    <ul>
+      <li><b>Chainlink</b><span>Frozen since Friday 16:00 ET. Expected 24/5 freeze; the token can still trade.</span></li>
+      <li><b>Mark-to-DEX</b><span>Uniswap mid is 1.40% above the frozen Chainlink mark. The snapshot uses today's DEX price as the Monday-open scenario.</span></li>
+      <li><b>Guard</b><span>Off. A suggested setting is described below as information only. StockFi never builds a transaction.</span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="scenarios">
+  <div class="scenario go">
+    <p class="kicker">Mark-to-DEX · Monday open</p>
+    <div class="num">1.38</div><div class="lbl">Health factor</div>
+    <p>Today's DEX mid applied to the frozen oracle. Still above 1.00.</p>
+    <span class="badge go">Above 1.00</span>
+  </div>
+  <div class="scenario caution">
+    <p class="kicker">Stress · 20% down</p>
+    <div class="num">1.11</div><div class="lbl">Health factor</div>
+    <p>Health factor holds above liquidation in this sample gap.</p>
+    <span class="badge caution">Closer to 1.00</span>
+  </div>
+  <div class="scenario stop">
+    <p class="kicker">Stress · 40% down</p>
+    <div class="num">0.83</div><div class="lbl">Health factor</div>
+    <p>Would cross 1.00 in this sample. Not a forecast.</p>
+    <span class="badge stop">Crosses 1.00</span>
+  </div>
+</section>
+
+<section class="band guard">
+  <span class="ic"><svg width="16" height="18" viewBox="0 0 16 18" aria-hidden="true"><path d="M8 1.5 2 3.8v4.6c0 3.8 2.6 6.7 6 8.1 3.4-1.4 6-4.3 6-8.1V3.8L8 1.5Z" stroke="#12160C" stroke-width="1.6" fill="none" stroke-linejoin="round"/></svg></span>
+  <div>
+    <h3>Suggested Guard · information only</h3>
+    <p>A Guard that reduces borrow capacity over the weekend would widen the distance to liquidation in a Monday gap. This is not a recommendation, not a plan, and not a transaction. StockFi never signs and never routes a borrow.</p>
+  </div>
+</section>
+<p class="band-note" style="margin-top:18px">Every figure on this page is Sample data. Live reports come from <code class="mono">GET /v1/reopen-risk</code> — see the <a href="/docs#reopen-risk">docs</a>. Covers Longbow markets on Robinhood Chain only; model risk applies.</p>

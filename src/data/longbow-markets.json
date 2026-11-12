@@ -1,0 +1,606 @@
+{
+  "source": "https://mcp.longbow.finance/mcp",
+  "generatedAt": "2026-11-12T22:07:41.917Z",
+  "markets": [
+    {
+      "symbol": "AAPL",
+      "marketId": "0x30a2a5f1a098b23ed91eadc4529a8d1c967f2cdc2e40a709f3a5992004b01ac0",
+      "collateralAddress": "0xaF3D76f1834A1d425780943C99Ea8A608f8a93f9",
+      "loan": "USDG",
+      "oracleLabel": "Chainlink AAPL/USD",
+      "maxLTV": 0.625
+    },
+    {
+      "symbol": "AAPLon",
+      "marketId": "0xf511a080dcb4d0a3b9d6aebb06e24afa011cda87f9f71ada70c60f8220e94f35",
+      "collateralAddress": "0x9bf86418caf2b7a939603d6c24219a77bf7f9b33",
+      "loan": "USDG",
+      "oracleLabel": "Chainlink AAPL/USD",
+      "maxLTV": 0.625
+    },
+    {
+      "symbol": "AI",
+      "marketId": "0xc6e16cff2bcf185639562ab937b7a1c381522768ff16aefc85a25ff6ab1c45ea",
+      "collateralAddress": "0x2E8c31162b855A2ffa90F6F8634643Ad6F111e18",
+      "loan": "USDG",
+      "oracleLabel": "Uniswap V3 TWAP (trustless)",
+      "maxLTV": 0.385
+    },
+    {
+      "symbol": "AMC",
+      "marketId": "0x8c170f5c5df593791640ac9fbac297d59d08c2e92e86f38fe52d38e929e60fa3",
+      "collateralAddress": "0x05a3d1Cd21d0C88145E82600E62e7E496e0F222B",
+      "loan": "USDG",
+      "oracleLabel": "Uniswap V3 TWAP (trustless)",
+      "maxLTV": 0.385
+    },
+    {
+      "symbol": "AMD",
+      "marketId": "0x4d2075836fd32183b10e5be1b383f6430de859df6d2bd5ec5b859970c4dd14e8",
+      "collateralAddress": "0x86923f96303d656e4aa86d9d42d1e57ad2023fdc",
+      "loan": "USDG",
+      "oracleLabel": "Chainlink AMD/USD",
+      "maxLTV": 0.625
+    },
+    {
+      "symbol": "AMZN",
+      "marketId": "0x8b2af4d69ad861a4099b995b6279aeaf6a905225a0ee889bce424c7faf19b7d9",
+      "collateralAddress": "0x12f190a9F9d7D37a250758b26824B97CE941bF54",
+      "loan": "USDG",
+      "oracleLabel": "Chainlink AMZN/USD",
+      "maxLTV": 0.625
+    },
+    {
+      "symbol": "ASML",
+      "marketId": "0xbe881499e682850931951c998e76cfbf38c7979b1beeae7cbbb97a39b3336a07",
+      "collateralAddress": "0x47F93d52cBeC7C6D2CfC080e154002370a60dAEA",
+      "loan": "USDG",
+      "oracleLabel": "Chainlink ASML/USD",
+      "maxLTV": 0.625
+    },
+    {
+      "symbol": "AVGO",
+      "marketId": "0x2695be2638c98241c887e4cad4eeba0f01137205f46b9e302edab04b5fee0570",
+      "collateralAddress": "0x156E175DD063a8cE274C50654eF40e0032b3fbcF",
+      "loan": "USDG",
+      "oracleLabel": "Uniswap V3 TWAP (trustless)",
+      "maxLTV": 0.385
+    },
+    {
+      "symbol": "BABA",
+      "marketId": "0xdd578ca54b4ef6a7827c6e9fc06905699a577f6e2f00712853d8aab13383bc38",
+      "collateralAddress": "0xad25Ac6C84D497db898fa1E8387bf6Af3532a1c4",
+      "loan": "USDG",
+      "oracleLabel": "Chainlink BABA/USD",
+      "maxLTV": 0.625
+    },
+    {
+      "symbol": "CASHCAT_LEGACY",
+      "marketId": "0x039503b6308d6d818d181e626d3fbc667d6e68393c3d74332a6124cd2dd6e755",
+      "collateralAddress": "0x020bfC650A365f8BB26819deAAbF3E21291018b4",
+      "loan": "USDG",
+      "oracleLabel": "API3 dAPI (first-party signed)",
+      "maxLTV": 0.385
+    },
+    {
+      "symbol": "cbBTC",
+      "marketId": "0x26f3bd5919ba0e6ea6f4bca1b8bd95ce29cbe3aad4ef824fb007570eac35103b",
+      "collateralAddress": "0xcec185eb182c47d1ba1efc84e6959e18cd620be4",
+      "loan": "USDG",
+      "oracleLabel": "Chainlink cbBTC/USD",
+      "maxLTV": 0.625
+    },
+    {
+      "symbol": "CLSK",
+      "marketId": "0x8114b65dfc5e64222103e5588de261eca9defd25f47ea4ae2f91d49fe4fa2993",
+      "collateralAddress": "0xcBB95BBF36099d34dA091dc6Fa6F49EfA257Cee3",
+      "loan": "USDG",
+      "oracleLabel": "Chainlink CLSK/USD",
+      "maxLTV": 0.625
+    },
+    {
+      "symbol": "COIN",
+      "marketId": "0x508b47fb12dbb8747644d4436aae65489b5f2819936adefc8a591323f64a5b01",
+      "collateralAddress": "0x6330d8c3178a418788df01a47479c0ce7ccf450b",
+      "loan": "USDG",
+      "oracleLabel": "Chainlink COIN/USD",
+      "maxLTV": 0.625
+    },
+    {
+      "symbol": "COST",
+      "marketId": "0xb33399a677e1a21152fa9969f02c57a7a342e692ec45608a3fa0d3d92519c343",
+      "collateralAddress": "0x4EA005168D7F09a7A0Ba9D1DEf21a479950E44C2",
+      "loan": "USDG",
+      "oracleLabel": "Uniswap V3 TWAP (trustless)",
+      "maxLTV": 0.385
+    },
+    {
+      "symbol": "CRCL",
+      "marketId": "0xf0959f62e748938cf260ca6fe7cb21a412e0a6643913460f4a6770c3f4b90af6",
+      "collateralAddress": "0xdF0992E440dD0be65BD8439b609d6D4366bf1CB5",
+      "loan": "USDG",
+      "oracleLabel": "Chainlink CRCL/USD",
+      "maxLTV": 0.625
+    },
+    {
+      "symbol": "CRCLon",
+      "marketId": "0x0279ea145eff84ed2ffd3b1ed1f2aca333060d9cef6fdd48bd21073c13ec86bf",
+      "collateralAddress": "0x369c4748e98c153e9b7adebc3e71e9e2a5f60dc0",
+      "loan": "USDG",
+      "oracleLabel": "Chainlink CRCL/USD",
+      "maxLTV": 0.625
+    },
+    {
+      "symbol": "CRWV",
+      "marketId": "0x96d3d5f9bc842e4c8a935c5628abd02fb0e10115560c35a9add768781434f471",
+      "collateralAddress": "0x5f10A1C971B69e47e059e1dC91901B59b3fB49C3",
+      "loan": "USDG",
+      "oracleLabel": "Chainlink CRWV/USD",
+      "maxLTV": 0.625
+    },
+    {
+      "symbol": "DELL",
+      "marketId": "0xd8b502d5c43f6e5cfff7f938c7ef18e684f114fb5b362611981144397e5d5aef",
+      "collateralAddress": "0x941AE714EC6D8130c7B75d67160Ca08f1e7d11Dd",
+      "loan": "USDG",
+      "oracleLabel": "Chainlink DELL/USD",
+      "maxLTV": 0.625
+    },
+    {
+      "symbol": "DELTA",
+      "marketId": "0x8097c1d1000eb657e75265384137041ac92856c8dc0b72c99569c3681320a430",
+      "collateralAddress": "0xe8ffd7e24187F72afB08d75B1bb13088A989a791",
+      "loan": "USDG",
+      "oracleLabel": "Uniswap V3 TWAP (trustless)",
+      "maxLTV": 0.385
+    },
+    {
+      "symbol": "DJT",
+      "marketId": "0x3be7fe1b6b439cfeb737d9921e9b83c92095a23a4f50aeee0d6d04f44446170f",
+      "collateralAddress": "0x1d11f0496982706c5e14a514d4e79f2e6bde4516",
+      "loan": "USDG",
+      "oracleLabel": "Uniswap V3 TWAP (trustless)",
+      "maxLTV": 0.385
+    },
+    {
+      "symbol": "ETH",
+      "marketId": "0x7c820d6a09502d63be80bb8025ec479d29d7c06e70f8df65a92aaeed23a366e2",
+      "collateralAddress": "0x0Bd7D308f8E1639FAb988df18A8011f41EAcAD73",
+      "loan": "USDG",
+      "oracleLabel": "Chainlink ETH/USD",
+      "maxLTV": 0.77
+    },
+    {
+      "symbol": "EWY",
+      "marketId": "0x1b3555f7c1273688f01ae82da7dc8e508e6a7841ec0038dbb15767154a277b86",
+      "collateralAddress": "0x7f0aBeF0C07280F82c6a08ead09dEd6BAE2C13Fc",
+      "loan": "USDG",
+      "oracleLabel": "Chainlink EWY/USD",
+      "maxLTV": 0.625
+    },
+    {
+      "symbol": "F",
+      "marketId": "0x9d61e320efb766ce5c375032b399f08afe644b095a9cb0b2d6d1f6ab68399a6f",
+      "collateralAddress": "0x25C288E6D899b9BC30160965aD9644c67e73bE0C",
+      "loan": "USDG",
+      "oracleLabel": "Uniswap V3 TWAP (trustless)",
+      "maxLTV": 0.385
+    },
+    {
+      "symbol": "GLD",
+      "marketId": "0x6c12c02536aa27831f713d658b59f74e149cc62b48528cb74455e79fab32f772",
+      "collateralAddress": "0xC9a981FEE1F9DEc688bb123ccDeCc63D0deBFC4e",
+      "loan": "USDG",
+      "oracleLabel": "Uniswap V3 TWAP (trustless)",
+      "maxLTV": 0.385
+    },
+    {
+      "symbol": "GME",
+      "marketId": "0x4979137c23c8fb519cd507adc290944c3c2120e8a3191547531fced28360e9c2",
+      "collateralAddress": "0x1b0E319c6A659F002271B69dB8A7df2F911c153E",
+      "loan": "USDG",
+      "oracleLabel": "Chainlink GME/USD",
+      "maxLTV": 0.625
+    },
+    {
+      "symbol": "GMEon",
+      "marketId": "0x9b01d5ad5ce8e477510854132cc47853f6e82a708c9c4723887550412f4ee522",
+      "collateralAddress": "0xb094d0d3221d7f7a9f14b0f78c34cd38d7acf6f2",
+      "loan": "USDG",
+      "oracleLabel": "Chainlink GME/USD",
+      "maxLTV": 0.625
+    },
+    {
+      "symbol": "GOOGL",
+      "marketId": "0x7e6ebfdc58a893a5cddba0fba0483baf4fac2efece627ad50821dbe27d6f9738",
+      "collateralAddress": "0x2e0847E8910a9732eB3fb1bb4b70a580ADAD4FE3",
+      "loan": "USDG",
+      "oracleLabel": "Chainlink GOOGL/USD",
+      "maxLTV": 0.625
+    },
+    {
+      "symbol": "GOOGLon",
+      "marketId": "0xeefec6c3e5cb7df1f2366ea7cf96a583081205b9720e807d2868d9866a702229",
+      "collateralAddress": "0xe10cc5f0cd0c90322ebeb33e7757b2c9090146dc",
+      "loan": "USDG",
+      "oracleLabel": "Chainlink GOOGL/USD",
+      "maxLTV": 0.625
+    },
+    {
+      "symbol": "HIMS",
+      "marketId": "0x43c51f6ff44ab406ab9c97cb5512c881f4a7498209f94bbcfd874d8f97fad79d",
+      "collateralAddress": "0xCceE82fE024c36fA15E1005edE3E9e4787e23D09",
+      "loan": "USDG",
+      "oracleLabel": "Uniswap V3 TWAP (trustless)",
+      "maxLTV": 0.385
+    },
+    {
+      "symbol": "IBM",
+      "marketId": "0xa85928d77bd25cc348e13ea6587b8b3ca3793f4af5e5db8ca07d0f20fd5cfa99",
+      "collateralAddress": "0x980dcf6766FA79f5Cf0c4AAdb3ab477ff15a9619",
+      "loan": "USDG",
+      "oracleLabel": "Uniswap V3 TWAP (trustless)",
+      "maxLTV": 0.385
+    },
+    {
+      "symbol": "INDEX",
+      "marketId": "0x6e6762ae397a2b3f2500ea2f48f8adce0eadfbf54cbc37f6108602e907e844ad",
+      "collateralAddress": "0x56910d4409f3a0c78c64dd8d0545ff0705389870",
+      "loan": "USDG",
+      "oracleLabel": "Uniswap V3 TWAP (trustless)",
+      "maxLTV": 0.385
+    },
+    {
+      "symbol": "INTC",
+      "marketId": "0xda5584635e8b14ea18f674dbe4243365505910fefd8e3aa1ac9bfaac0eba74e8",
+      "collateralAddress": "0xc72b96e0e48ecd4dc75e1e45396e26300bc39681",
+      "loan": "USDG",
+      "oracleLabel": "Chainlink INTC/USD",
+      "maxLTV": 0.625
+    },
+    {
+      "symbol": "LLY",
+      "marketId": "0x0f18d4fd8d86bd4d100b867b67e1fd38c80981fcd43e442313c2d5408da9352d",
+      "collateralAddress": "0x8005d266423c7ea827372c9c864491e5786600ea",
+      "loan": "USDG",
+      "oracleLabel": "Uniswap V3 TWAP (trustless)",
+      "maxLTV": 0.385
+    },
+    {
+      "symbol": "LULU",
+      "marketId": "0x7d4313cf1b0ede39395a2c7495dc1b1b47370caf51f70571d927f22e715e5f58",
+      "collateralAddress": "0x4e62068525Ab11FE768e29dfD00ef909B9803016",
+      "loan": "USDG",
+      "oracleLabel": "Uniswap V3 TWAP (trustless)",
+      "maxLTV": 0.385
+    },
+    {
+      "symbol": "MCD",
+      "marketId": "0x94ed33f7f7434357e585c041f8b14c47ddbd30af3ef178555e28f385e4e2460e",
+      "collateralAddress": "0x2fdaa4604F10F4AE7f66fa48A174bCd25b1ece20",
+      "loan": "USDG",
+      "oracleLabel": "Uniswap V3 TWAP (MCD/USDG)",
+      "maxLTV": 0.385
+    },
+    {
+      "symbol": "META",
+      "marketId": "0x69400cfe81f2ae381b9a9f27076a4d637338379d999e9ffdfbde52f0876312ee",
+      "collateralAddress": "0xc0d6457c16cc70d6790dd43521c899c87ce02f35",
+      "loan": "USDG",
+      "oracleLabel": "Chainlink META/USD",
+      "maxLTV": 0.625
+    },
+    {
+      "symbol": "METAon",
+      "marketId": "0x26c80a00f8facc6b081989965d89cedc274b90b81be660e69245a74e5384f5de",
+      "collateralAddress": "0x7b5026cfcb4de0cf3d9a39fe2a541514b71437a2",
+      "loan": "USDG",
+      "oracleLabel": "Chainlink META/USD",
+      "maxLTV": 0.625
+    },
+    {
+      "symbol": "MRNA",
+      "marketId": "0xe8d9b45cdbedc4401a3145be7726c9f72b715e03c5399c961439f11636ee9fb6",
+      "collateralAddress": "0x43B07D15cE533bEc5476d70C22a78a1B2B662155",
+      "loan": "USDG",
+      "oracleLabel": "Uniswap V3 TWAP (trustless)",
+      "maxLTV": 0.385
+    },
+    {
+      "symbol": "MSFT",
+      "marketId": "0xafc86936af4f7edf083eb2550b8c42311b83c685982742b9271b309a58268855",
+      "collateralAddress": "0xe93237C50D904957Cf27E7B1133b510C669c2e74",
+      "loan": "USDG",
+      "oracleLabel": "Chainlink MSFT/USD",
+      "maxLTV": 0.625
+    },
+    {
+      "symbol": "MSTR",
+      "marketId": "0x01baec96478004fc7b74c8dfe38abef8d716fea59ffd481b6ec74db915d3bc80",
+      "collateralAddress": "0xec262a75e413fAfD0dF80480274532C79D42da09",
+      "loan": "USDG",
+      "oracleLabel": "Chainlink MSTR/USD",
+      "maxLTV": 0.625
+    },
+    {
+      "symbol": "MSTRon",
+      "marketId": "0xa87da1cc931faa945a41861cc9c90076772ceeae9a663836df6b265c4f30106d",
+      "collateralAddress": "0x09dedc334fc47ab543e5d70c7fd9d2b1aea175bd",
+      "loan": "USDG",
+      "oracleLabel": "Chainlink MSTR/USD",
+      "maxLTV": 0.625
+    },
+    {
+      "symbol": "MU",
+      "marketId": "0x9df4f54a2e46b35bd326cec97dbabc4203fa6c64a8e4182128f277adba8fefaf",
+      "collateralAddress": "0xff080c8ce2e5feadaca0da81314ae59d232d4afd",
+      "loan": "USDG",
+      "oracleLabel": "Chainlink MU/USD",
+      "maxLTV": 0.625
+    },
+    {
+      "symbol": "NBIS",
+      "marketId": "0xf049167e6bf18a1b41b8e2acefcf7bc9b13ea013d8d65c7fbc7cbaeb3fe9b4e2",
+      "collateralAddress": "0x9D9c6684F596F66a64C030B93A886D51Fd4D7931",
+      "loan": "USDG",
+      "oracleLabel": "Chainlink NBIS/USD",
+      "maxLTV": 0.625
+    },
+    {
+      "symbol": "NFLX",
+      "marketId": "0x0066bc47b87597993af0bca6f526175c0abae011b764d4bf12a3def45e1f4e78",
+      "collateralAddress": "0xE0444EF8BF4eD74f74FD73686e2ddF4C1c5591E8",
+      "loan": "USDG",
+      "oracleLabel": "Uniswap V3 TWAP (trustless)",
+      "maxLTV": 0.385
+    },
+    {
+      "symbol": "NVDA",
+      "marketId": "0x66306c087add8907752320b309934abcc354d21626de8115c79df49d9c214edc",
+      "collateralAddress": "0xd0601CE157Db5bdC3162BbaC2a2C8aF5320D9EEC",
+      "loan": "USDG",
+      "oracleLabel": "Chainlink NVDA/USD",
+      "maxLTV": 0.625
+    },
+    {
+      "symbol": "NVDA-WETH",
+      "marketId": "0x141c2b1d2bbecf7f8a76563307d7e5bf586457e873c3d97c4bb1502e57b77952",
+      "collateralAddress": "0xd0601CE157Db5bdC3162BbaC2a2C8aF5320D9EEC",
+      "loan": "WETH",
+      "oracleLabel": "Chainlink NVDA/USD",
+      "maxLTV": 0.385
+    },
+    {
+      "symbol": "NVDAon",
+      "marketId": "0xb095654f06f4d17d4fc010c2d89a107649e3c5b58e53a3812d1736c95e63e3f8",
+      "collateralAddress": "0xf1b95AE4E7700b962714702EA53784Dc8492a856",
+      "loan": "USDG",
+      "oracleLabel": "Chainlink NVDA/USD",
+      "maxLTV": 0.625
+    },
+    {
+      "symbol": "ORCL",
+      "marketId": "0xee04847a312224d551d2267bb5c2c2695777af5fd1f05347bdcca397e8f54336",
+      "collateralAddress": "0xb0992820E760d836549ba69BC7598b4af75dEE03",
+      "loan": "USDG",
+      "oracleLabel": "Chainlink ORCL/USD",
+      "maxLTV": 0.625
+    },
+    {
+      "symbol": "PLTR",
+      "marketId": "0xb5ba72c0d55c353fa37c0bea104eb117afb2f4934473bcb736d2218ae5686746",
+      "collateralAddress": "0x894e1ec2d74ffe5aef8dc8a9e84686accb964f2a",
+      "loan": "USDG",
+      "oracleLabel": "Chainlink PLTR/USD",
+      "maxLTV": 0.625
+    },
+    {
+      "symbol": "PONS",
+      "marketId": "0xaba3ac501ce4c6b80c08ed0dba19e1ac0de495f17af3ed692a38e92d176a6c9e",
+      "collateralAddress": "0x39dBED3a2bd333467115dE45665cC57F813C4571",
+      "loan": "USDG",
+      "oracleLabel": "Uniswap V3 TWAP (trustless)",
+      "maxLTV": 0.385
+    },
+    {
+      "symbol": "QQQ",
+      "marketId": "0x315b99abb698487891243a84afd28a5ff56fe02143f203c03edd3f103936bf60",
+      "collateralAddress": "0xD5f3879160bc7c32ebb4dC785F8a4F505888de68",
+      "loan": "USDG",
+      "oracleLabel": "Chainlink QQQ/USD",
+      "maxLTV": 0.625
+    },
+    {
+      "symbol": "QQQon",
+      "marketId": "0x83d542605940b5495ef38d4b62a39293766a486a24e5c67930f41acd919cf1d1",
+      "collateralAddress": "0x300fe8a40701ce81460503fb886f9ed81a3b5e14",
+      "loan": "USDG",
+      "oracleLabel": "Chainlink QQQ/USD",
+      "maxLTV": 0.625
+    },
+    {
+      "symbol": "RBLX",
+      "marketId": "0x8338aed363a309039b2f271a83558831e7e445f2d13c6e72c576ec0b8a969415",
+      "collateralAddress": "0xF0C4BF4C582cb3836e98394b1d4e7B7281101bE8",
+      "loan": "USDG",
+      "oracleLabel": "Uniswap V3 TWAP (trustless)",
+      "maxLTV": 0.385
+    },
+    {
+      "symbol": "RDDT",
+      "marketId": "0x298e8ff9b31f22be90507bc61b55e66ab93e78b55a60593035e309ed93137cb8",
+      "collateralAddress": "0x05b37Fb53A299a1b874A619e1c4C404D52C36F4C",
+      "loan": "USDG",
+      "oracleLabel": "Uniswap V3 TWAP (trustless)",
+      "maxLTV": 0.385
+    },
+    {
+      "symbol": "RGTI",
+      "marketId": "0x003390b057d753bd839981a0d45f9a567aa0b0ed6373fd42e951eac8ee86c2ba",
+      "collateralAddress": "0x284358abc07F9359f19f4b5b4aC91901Be2597Ba",
+      "loan": "USDG",
+      "oracleLabel": "Chainlink RGTI/USD",
+      "maxLTV": 0.625
+    },
+    {
+      "symbol": "RIVN",
+      "marketId": "0x46eea143d473cdb8587505f8886dad452037f285f7729a7763e8c233c63b2e8e",
+      "collateralAddress": "0xB1BF26c1D20ff267A4f93550d1E0d06ac40a114B",
+      "loan": "USDG",
+      "oracleLabel": "Uniswap V3 TWAP (trustless)",
+      "maxLTV": 0.385
+    },
+    {
+      "symbol": "RKLB",
+      "marketId": "0x14973a168cf6c6b1148309f5d567c255b292863ffe9cca59f4284e1426636f00",
+      "collateralAddress": "0x3b14C39E89D60D627b42a1A4CA45b5bb45Fc12e2",
+      "loan": "USDG",
+      "oracleLabel": "Chainlink RKLB/USD",
+      "maxLTV": 0.625
+    },
+    {
+      "symbol": "SGOV",
+      "marketId": "0xf6f3dbe0a19e948147e79e66502c6b05709d8dfde977fec7db1528fc8f0ebdfa",
+      "collateralAddress": "0x92fd66527192e3e61d4ddd13322aa222de86f9b5",
+      "loan": "USDG",
+      "oracleLabel": "Chainlink SGOV/USD",
+      "maxLTV": 0.86
+    },
+    {
+      "symbol": "SHORT-ETH",
+      "marketId": "0x1fa5293f9f60059a7f6a4923022156fcdcc038bd3749be55897000c03afe92d8",
+      "collateralAddress": "0x5fc5360D0400a0Fd4f2af552ADD042D716F1d168",
+      "loan": "WETH",
+      "oracleLabel": "Chainlink ETH/USD ÷ USDG/USD",
+      "maxLTV": 0.625
+    },
+    {
+      "symbol": "SLV",
+      "marketId": "0x4edbd2f2f3b33bc5f80ab588def67fab8c10945fc99f855d80ff4bef2c4aa1f0",
+      "collateralAddress": "0x411eFb0E7f985935DAec3D4C3ebaEa0d0AD7D89f",
+      "loan": "USDG",
+      "oracleLabel": "Chainlink SLV/USD",
+      "maxLTV": 0.625
+    },
+    {
+      "symbol": "SNDK",
+      "marketId": "0x74fece475178af9e06d31fb64f405046a305f8f0abc588782f596d6f261c1fbb",
+      "collateralAddress": "0xb90a19ff0af67f7779aff50a882a9cff42446400",
+      "loan": "USDG",
+      "oracleLabel": "Chainlink SNDK/USD",
+      "maxLTV": 0.625
+    },
+    {
+      "symbol": "SPCX",
+      "marketId": "0x597227ca652ea5e8afb6e4801ecd766a4d6eb9b3b9fafa9127ba88a8b1f19629",
+      "collateralAddress": "0x4a0E65A3EcceC6dBe60AE065F2e7bb85Fae35eEa",
+      "loan": "USDG",
+      "oracleLabel": "Chainlink SPCX/USD",
+      "maxLTV": 0.385
+    },
+    {
+      "symbol": "SPCXon",
+      "marketId": "0x947c05e7c0fa3ba187d57db710d04ba8be4fef53baba0cfbe71ce61b34a1367d",
+      "collateralAddress": "0x9b8294f24453379aa87c807ab82bf1d5722153fc",
+      "loan": "USDG",
+      "oracleLabel": "Chainlink SPCX/USD",
+      "maxLTV": 0.625
+    },
+    {
+      "symbol": "spUSDG",
+      "marketId": "0x0309c02dabf0be02682af1a2bde9a457f4df0f0b6bc889cde3f948e5315e4114",
+      "collateralAddress": "0xde770c84FE66E063336b31737cFE9790f18c4087",
+      "loan": "USDG",
+      "oracleLabel": "spUSDG vault exchange rate (ERC-4626, no external price feed)",
+      "maxLTV": 0.915
+    },
+    {
+      "symbol": "SPY",
+      "marketId": "0x50bc39b5722fb5634c436d74c6787f3c125b879e7b73cf9e9ecc01bbb57b8e55",
+      "collateralAddress": "0x117cc2133c37B721F49dE2A7a74833232B3B4C0C",
+      "loan": "USDG",
+      "oracleLabel": "Chainlink SPY/USD",
+      "maxLTV": 0.625
+    },
+    {
+      "symbol": "SPY-WETH",
+      "marketId": "0x4e92b336ecad6c842be20ae2ae27b28b3cf5ced6c5388a808167c03a8d75fdf8",
+      "collateralAddress": "0x117cc2133c37B721F49dE2A7a74833232B3B4C0C",
+      "loan": "WETH",
+      "oracleLabel": "Chainlink SPY/USD",
+      "maxLTV": 0.385
+    },
+    {
+      "symbol": "SPYon",
+      "marketId": "0xf8f0b5badf06192908bc47af32b93742d9b4fb6072d388cb183ff7849ee6534c",
+      "collateralAddress": "0x533c5571ae586985e1fddfaa24304284d970c62a",
+      "loan": "USDG",
+      "oracleLabel": "Chainlink SPY/USD",
+      "maxLTV": 0.625
+    },
+    {
+      "symbol": "STONKBROKER",
+      "marketId": "0x378713071c58206c6a826287d0051bcae113d83d6e3d3b6370b7e73128d06162",
+      "collateralAddress": "0xe934e36a439c94017b64a3fece66af12099abf50",
+      "loan": "USDG",
+      "oracleLabel": "Uniswap V3 TWAP (trustless)",
+      "maxLTV": 0.385
+    },
+    {
+      "symbol": "TSLA",
+      "marketId": "0xb41b34c5989420ad080e79363a9cfe3e23bec7459fcd2d88029250da370288df",
+      "collateralAddress": "0x322f0929c4625ed5bad873c95208d54e1c003b2d",
+      "loan": "USDG",
+      "oracleLabel": "Chainlink TSLA/USD",
+      "maxLTV": 0.625
+    },
+    {
+      "symbol": "TSLAon",
+      "marketId": "0xff2063ef18bc5f71867c56d6d3290b61f3da1d010c8a0552bdb7995cfad8cacc",
+      "collateralAddress": "0xb197f36c25ba9b66960688882a4dc595c6b04309",
+      "loan": "USDG",
+      "oracleLabel": "Chainlink TSLA/USD",
+      "maxLTV": 0.625
+    },
+    {
+      "symbol": "TSM",
+      "marketId": "0x243ac165f79a75a0590d2e994ffa9e260b70292fd1ca134ace95f3640895b19f",
+      "collateralAddress": "0x58FfE4a942d3885bAa22D7520691F611EF09e7AA",
+      "loan": "USDG",
+      "oracleLabel": "Chainlink TSM/USD",
+      "maxLTV": 0.625
+    },
+    {
+      "symbol": "TTWO",
+      "marketId": "0xe6284cf12d0603aee18ff5ab412e262cf99f120e967579111d7a51f37f276f54",
+      "collateralAddress": "0x5e81213613b6B86EaB4c6c50d718d34359459786",
+      "loan": "USDG",
+      "oracleLabel": "Uniswap V3 TWAP (trustless)",
+      "maxLTV": 0.385
+    },
+    {
+      "symbol": "USAR",
+      "marketId": "0x2ab6a14c9f68d4216dcb3b4e6ed607cf82f2e6badfa2bd5618d7f69d012d7fab",
+      "collateralAddress": "0xd917b029c761d264c6a312bbbcda868658ef86a6",
+      "loan": "USDG",
+      "oracleLabel": "Chainlink USAR/USD",
+      "maxLTV": 0.385
+    },
+    {
+      "symbol": "USO",
+      "marketId": "0x6b8a1f62d88d1cd1e8de609aef07cafc8226172ba703e57c52c3730350e61df1",
+      "collateralAddress": "0xa30FA36Db767ad9eD3f7a60fC79526fB4d56D344",
+      "loan": "USDG",
+      "oracleLabel": "Chainlink USO/USD",
+      "maxLTV": 0.625
+    },
+    {
+      "symbol": "WSNET-NN",
+      "marketId": "0xaa586d26a6fe62d9c0f0948fede6e2130500ac7a655587447e2d4a37e6330589",
+      "collateralAddress": "0x63C12667638f2Ae6fC6ae09B43D98Ec84a8586eA",
+      "loan": "USDG",
+      "oracleLabel": "NetNet Loopback (pair TWAP, floor-bounded)",
+      "maxLTV": 0.625
+    }
+  ]
+}

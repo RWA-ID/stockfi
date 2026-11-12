@@ -1,0 +1,42 @@
+<!doctype html>
+<html><head><meta charset="utf-8" />
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@500;600&family=Outfit:wght@600;700&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../public/styles.css" />
+<style>
+  html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; }
+  body { background-size: 100% 630px; }
+  .og { position: relative; width: 1200px; height: 630px; padding: 56px 64px; box-sizing: border-box; display: grid; grid-template-columns: 1.05fr 1fr; gap: 40px; }
+  .og h1 { font-size: 62px; margin: 30px 0 12px; line-height: 1.08; }
+  .og .sub { font-size: 27px; font-weight: 600; margin: 0 0 26px; }
+  .og .wordmark { font-size: 30px; }
+  .og .wordmark .mark { width: 38px; height: 38px; border-radius: 12px; font-size: 23px; }
+  .og .hero-card { height: 448px; margin-top: 6px; }
+  .og .display-verdict { font-size: 92px; margin-top: 92px; }
+  .og .meta { display: flex; gap: 10px; flex-wrap: wrap; }
+  .og .price-chip { font-size: 14px; padding: 6px 14px; }
+  .og .price-chip b { font-size: 19px; }
+  .og .foot { position: absolute; left: 64px; bottom: 44px; display: flex; align-items: center; gap: 14px; font-size: 17px; font-weight: 600; color: var(--muted-dark); }
+</style></head>
+<body>
+<div class="og">
+  <div>
+    <span class="wordmark"><span class="mark">S</span>StockFi</span>
+    <h1>Check a Stock Token before you trade.</h1>
+    <p class="sub">Know the Monday-gap risk on a loan.</p>
+    <div class="meta">
+      <span class="price-chip"><b>$0.02</b>Preflight</span>
+      <span class="price-chip"><b>$0.03</b>Reopen Risk</span>
+      <span class="price-chip"><b>x402</b>USDG</span>
+    </div>
+    <div class="foot">stockfi.trade · Data checks only · Not for U.S. persons</div>
+  </div>
+  <div class="hero-card">
+    <div class="card-head"><span class="sample">Sample</span>Preflight · AAPL · buy</div>
+    <div class="display-verdict">CAUTION</div>
+    <div class="verdicts"><span class="vchip">GO</span><span class="vchip on-caution">CAUTION</span><span class="vchip">STOP</span></div>
+    <div class="reasons" style="margin-top:14px"><span class="reason">WEEKEND_FEED_FREEZE</span></div>
+    <svg class="dots" data-cols="26" data-rows="5" aria-hidden="true"></svg>
+  </div>
+</div>
+<script src="../../public/site.js"></script>
+</body></html>
