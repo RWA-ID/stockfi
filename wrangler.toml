@@ -21,7 +21,7 @@ enabled = true
 # Non-secret config. Secrets (wrangler secret put): ANTHROPIC_API_KEY, UPSTREAM_KEY, ROBINHOOD_RPC_URL
 [vars]
 PAY_TO = "0xc32A9e2f1092F1D57D3267C2E70b80DA9De06D59"
-PAYEE_NAME = ""
+PAYEE_NAME = "stockfi.hoodfi.eth"
 PUBLIC_ORIGIN = "https://stockfi.trade"
 FACILITATOR_URL = "https://x402fi.dev/api/facilitator"
 PRICE_PREFLIGHT = "0.02"
