@@ -6,6 +6,7 @@
  */
 import Anthropic from "@anthropic-ai/sdk";
 import type { buildReopen } from "./reopen";
+import { inspectQuoteText } from "wormhole-x402/quotetext";
 import { templateSummary } from "./reopen";
 
 type Report = ReturnType<typeof buildReopen>;
@@ -23,7 +24,13 @@ const BANNED = /\b(should|recommend\w*|consider|advis\w*|safe|safely|guarantee\w
 
 export function isAcceptableSummary(text: string): boolean {
   const t = text.trim();
-  return t.length > 20 && t.length < 900 && !BANNED.test(t);
+  if (t.length <= 20 || t.length >= 900 || BANNED.test(t)) return false;
+  // AgentWormhole quote-text rules: model prose must not read as instructions to agents.
+  try {
+    return inspectQuoteText(t).decision === "allow";
+  } catch {
+    return false;
+  }
 }
 
 export interface SummaryDeps {

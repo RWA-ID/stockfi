@@ -16,7 +16,8 @@
   "dependencies": {
     "@anthropic-ai/sdk": "1.8.0",
     "hono": "4.13.18",
-    "viem": "2.57.19"
+    "viem": "2.57.19",
+    "wormhole-x402": "0.11.0"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "5.20261112.1",

@@ -27,6 +27,7 @@ buyer ──GET──▶ stockfi.trade/v1/…  ──400 if the input is bad (ne
 
 - **Payment**: x402 v2, scheme `exact`, USDG `0x5fc5360D0400a0Fd4f2af552ADD042D716F1d168` (EIP-3009) on Robinhood Chain. Verification and settlement go through [x402Fi's public facilitator](https://x402fi.dev/developers); USDG moves straight from the buyer to `PAY_TO`. StockFi runs no facilitator and holds no keys.
 - **Settle after 2xx**: the facilitator `/settle` call happens only after the result is computed. A failed compute is never settled; a failed settle never releases the body.
+- **Delivery check** (same as x402Fi's gateway): before anything is settled or released, the body runs through AgentWormhole's delivery rules (`wormhole-x402`, `src/delivery.ts`): parse/empty checks plus a prompt-injection scan of every string value. `DELIVERY_SCAN=block` (default) answers `502 delivery_refused`, not charged; `flag` only logs. Every 200 carries `X-Delivery-Scan`. The weekend summary from the model must also pass the scan, or the template is used. Shape matching catches careless injection; it does not certify a response.
 - **Receipts**: every 200 body is canonical JSON (keys sorted, no whitespace). `X-Response-SHA256` (hex) and `Content-Digest: sha-256=:…:` (RFC 9530) hash the exact bytes; `PAYMENT-RESPONSE` carries the settlement result and transaction hash.
 - **x402Fi listing (proxied)**: x402Fi's gateway calls `stockfi.trade` with `X-X402Fi-Secret`. When it matches the `UPSTREAM_KEY` secret (constant-time compare), StockFi skips its own 402, because x402Fi has already verified the buyer and settles after StockFi's 2xx. That path adds x402Fi's public receipts, response hash and revenue dashboard.
 
@@ -68,7 +69,7 @@ CI runs all of the above on every PR and push to `main`. It never deploys.
 
 ## Configuration
 
-`wrangler.toml` `[vars]` (non-secret): `PAY_TO`, `PAYEE_NAME`, `PUBLIC_ORIGIN`, `FACILITATOR_URL`, `PRICE_PREFLIGHT`, `PRICE_PREFLIGHT_QUOTE`, `PRICE_REOPEN`, `PRICE_REOPEN_WEEKEND`, `ROBINHOOD_API_BASE`, `LONGBOW_MCP_URL`, `STALE_FEED_MINUTES` (30), `PREMIUM_CAUTION_BPS` (100), `IMPACT_CAUTION_BPS` (200), `THIN_BOOK_BPS` (1000), `STRESS_PCTS` (`20,40`), `SAFE_BUFFER_HF` (1.1), `GUARD_SUGGEST_HF` (1.25), `SUMMARY_MODEL`.
+`wrangler.toml` `[vars]` (non-secret): `PAY_TO`, `PAYEE_NAME`, `PUBLIC_ORIGIN`, `FACILITATOR_URL`, `PRICE_PREFLIGHT`, `PRICE_PREFLIGHT_QUOTE`, `PRICE_REOPEN`, `PRICE_REOPEN_WEEKEND`, `ROBINHOOD_API_BASE`, `LONGBOW_MCP_URL`, `STALE_FEED_MINUTES` (30), `PREMIUM_CAUTION_BPS` (100), `IMPACT_CAUTION_BPS` (200), `THIN_BOOK_BPS` (1000), `STRESS_PCTS` (`20,40`), `SAFE_BUFFER_HF` (1.1), `GUARD_SUGGEST_HF` (1.25), `SUMMARY_MODEL`, `DELIVERY_SCAN` (`block`).
 
 Secrets (`wrangler secret put`): `UPSTREAM_KEY` (from the x402Fi listing), `ANTHROPIC_API_KEY`, `ROBINHOOD_RPC_URL` (a dedicated RPC; public RPCs rate-limit Cloudflare egress). Never commit them, and never put a secret's name in `[vars]`, because a var shadows a secret.
 
@@ -77,7 +78,12 @@ All upstream URLs come from config, never from request input (no SSRF surface).
 ## Deploy
 
 ```bash
-npx wrangler deploy        # Worker + static site; custom domain stockfi.trade
+npx wrangler deploy        # Worker + static site; custom domains stockfi.trade + www.stockfi.trade
+```
+
+The Worker runs first on every request: `http://` and `www.` redirect to `https://stockfi.trade` (301 for GET/HEAD, 308 otherwise), and responses carry HSTS.
+
+```bash
 ```
 
 ## Listing on x402Fi

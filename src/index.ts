@@ -37,6 +37,25 @@ const CORS = {
 export function createApp(app: AppDeps) {
   const h = new Hono<{ Bindings: Env }>();
 
+  // Canonical origin: https://stockfi.trade. http → https and www → apex, path and query kept.
+  // 301 for GET/HEAD; 308 otherwise so a client keeps its method and body.
+  h.use("*", async (c, next) => {
+    const u = new URL(c.req.url);
+    const local = u.hostname === "localhost" || u.hostname === "127.0.0.1" || u.hostname.endsWith(".workers.dev");
+    if (!local && (u.protocol === "http:" || u.hostname.startsWith("www."))) {
+      u.protocol = "https:";
+      u.hostname = u.hostname.replace(/^www\./, "");
+      u.port = "";
+      return c.redirect(u.toString(), c.req.method === "GET" || c.req.method === "HEAD" ? 301 : 308);
+    }
+    await next();
+    if (!local) {
+      // Static-asset responses have immutable headers: copy before adding HSTS.
+      c.res = new Response(c.res.body, c.res);
+      c.res.headers.set("strict-transport-security", "max-age=31536000");
+    }
+  });
+
   h.use("/v1/*", async (c, next) => {
     if (c.req.method === "OPTIONS") return new Response(null, { status: 204, headers: CORS });
     await next();
@@ -68,6 +87,7 @@ export function createApp(app: AppDeps) {
           upstreamKey: d.cfg.upstreamKey,
           facilitator: app.facilitator(d.cfg),
           compute: () => computePreflight(q, d),
+          deliveryScan: d.cfg.deliveryScan,
         });
       }
       const q = parseReopen(url, !!variant.weekendPath);
@@ -82,6 +102,7 @@ export function createApp(app: AppDeps) {
         upstreamKey: d.cfg.upstreamKey,
         facilitator: app.facilitator(d.cfg),
         compute: () => computeReopen(q, d),
+        deliveryScan: d.cfg.deliveryScan,
       });
     } catch (e) {
       if (e instanceof BadRequest) return Response.json({ error: "bad_request", detail: e.message, charged: false }, { status: 400, headers: CORS });

@@ -6,12 +6,13 @@ workers_dev = true
 
 routes = [
   { pattern = "stockfi.trade", custom_domain = true },
+  { pattern = "www.stockfi.trade", custom_domain = true },
 ]
 
 [assets]
 directory = "./public"
 binding = "ASSETS"
-run_worker_first = ["/v1/*", "/openapi.json", "/healthz"]
+run_worker_first = true
 html_handling = "auto-trailing-slash"
 not_found_handling = "404-page"
 
@@ -38,3 +39,4 @@ STRESS_PCTS = "20,40"
 SAFE_BUFFER_HF = "1.1"
 GUARD_SUGGEST_HF = "1.25"
 SUMMARY_MODEL = "claude-haiku-5-5"
+DELIVERY_SCAN = "block"

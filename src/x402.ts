@@ -9,6 +9,7 @@
  */
 import { getAddress, type Address, type Hex } from "viem";
 import { hashedBody } from "./canonical-json";
+import { checkDelivery, type ScanMode } from "./delivery";
 import { USDG } from "./data/chain";
 
 export const NETWORK = "eip155:4663";
@@ -116,7 +117,7 @@ export async function safeEqual(a: string, b: string): Promise<boolean> {
   return d === 0 && a.length === b.length;
 }
 
-export const EXPOSE_HEADERS = "PAYMENT-REQUIRED, PAYMENT-RESPONSE, X-PAYMENT-RESPONSE, Content-Digest, X-Response-SHA256";
+export const EXPOSE_HEADERS = "PAYMENT-REQUIRED, PAYMENT-RESPONSE, X-PAYMENT-RESPONSE, Content-Digest, X-Response-SHA256, X-Delivery-Scan";
 
 export interface PaidRequest {
   request: Request;
@@ -129,6 +130,8 @@ export interface PaidRequest {
   facilitator: Facilitator;
   /** Returns the JSON body for a 200, or throws. */
   compute: () => Promise<unknown>;
+  /** AgentWormhole delivery check on the body before it is released (and before settle). */
+  deliveryScan?: ScanMode;
 }
 
 function json(status: number, body: unknown, headers: Record<string, string> = {}): Response {
@@ -138,20 +141,36 @@ function json(status: number, body: unknown, headers: Record<string, string> = {
   });
 }
 
-async function ok(body: unknown, extra: Record<string, string> = {}): Promise<Response> {
-  const h = await hashedBody(body);
-  return new Response(h.body, {
-    status: 200,
-    headers: {
-      "content-type": "application/json",
-      "cache-control": "no-store",
-      "content-digest": h.contentDigest,
-      "x-response-sha256": h.hex,
-      "access-control-expose-headers": EXPOSE_HEADERS,
-      ...extra,
-    },
-  });
+interface Prepared {
+  body: string;
+  headers: Record<string, string>;
 }
+
+/**
+ * Serializes, hashes and scans the body. Returns a Response instead when the delivery
+ * check refuses it in block mode: that response is never settled, so never charged.
+ */
+async function prepare(body: unknown, mode: ScanMode): Promise<Prepared | Response> {
+  const h = await hashedBody(body);
+  const headers: Record<string, string> = {
+    "content-type": "application/json",
+    "cache-control": "no-store",
+    "content-digest": h.contentDigest,
+    "x-response-sha256": h.hex,
+    "access-control-expose-headers": EXPOSE_HEADERS,
+  };
+  if (mode !== "off") {
+    const d = checkDelivery({ status: 200, contentType: "application/json", body: new TextEncoder().encode(h.body) });
+    headers["x-delivery-scan"] = d.decision;
+    if (d.decision !== "allow") console.warn(JSON.stringify({ msg: "delivery_scan", decision: d.decision, codes: d.codes, mode }));
+    if (d.decision === "refuse" && mode === "block") {
+      return json(502, { error: "delivery_refused", detail: "The response failed the delivery check and was not released.", codes: d.codes, charged: false });
+    }
+  }
+  return { body: h.body, headers };
+}
+
+const release = (p: Prepared, extra: Record<string, string> = {}) => new Response(p.body, { status: 200, headers: { ...p.headers, ...extra } });
 
 function computeError(e: unknown): Response {
   const msg = e instanceof Error ? e.message : "error";
@@ -162,11 +181,13 @@ export async function handlePaid(p: PaidRequest): Promise<Response> {
   // 1. x402Fi proxied path: x402Fi already verified the buyer and settles after our 2xx.
   const secret = p.request.headers.get("x-x402fi-secret");
   if (secret && p.upstreamKey && (await safeEqual(secret, p.upstreamKey))) {
+    let prepared: Prepared | Response;
     try {
-      return await ok(await p.compute());
+      prepared = await prepare(await p.compute(), p.deliveryScan ?? "block");
     } catch (e) {
       return computeError(e);
     }
+    return prepared instanceof Response ? prepared : release(prepared);
   }
 
   const challenge = (error?: string) => {
@@ -196,13 +217,14 @@ export async function handlePaid(p: PaidRequest): Promise<Response> {
     return challenge(v.reason);
   }
 
-  // 4. Compute (not charged on failure)
-  let body: unknown;
+  // 4. Compute and run the delivery check (not charged on failure or refusal)
+  let prepared: Prepared | Response;
   try {
-    body = await p.compute();
+    prepared = await prepare(await p.compute(), p.deliveryScan ?? "block");
   } catch (e) {
     return computeError(e);
   }
+  if (prepared instanceof Response) return prepared;
 
   // 5. Settle, then release the body
   const s = await p.facilitator.settle(payload, reqs);
@@ -211,5 +233,5 @@ export async function handlePaid(p: PaidRequest): Promise<Response> {
     return challenge(s.reason);
   }
   const receipt = encodeHeader(s.settle);
-  return ok(body, { "PAYMENT-RESPONSE": receipt, "X-PAYMENT-RESPONSE": receipt });
+  return release(prepared, { "PAYMENT-RESPONSE": receipt, "X-PAYMENT-RESPONSE": receipt });
 }

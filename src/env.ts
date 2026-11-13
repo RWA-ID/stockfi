@@ -1,4 +1,5 @@
 import { getAddress, type Address } from "viem";
+import { scanMode, type ScanMode } from "./delivery";
 
 /** Worker bindings. Secrets via `wrangler secret put`; the rest in wrangler.toml [vars]. */
 export interface Env {
@@ -28,6 +29,7 @@ export interface Env {
   SAFE_BUFFER_HF?: string;
   GUARD_SUGGEST_HF?: string;
   // weekend summary
+  DELIVERY_SCAN?: string;
   ANTHROPIC_API_KEY?: string;
   SUMMARY_MODEL?: string;
 }
@@ -49,6 +51,7 @@ export interface Config {
   stressPcts: number[];
   safeBufferHf: number;
   guardSuggestHf: number;
+  deliveryScan: ScanMode;
   anthropicKey: string | null;
   summaryModel: string;
 }
@@ -101,6 +104,7 @@ export function loadConfig(env: Env): Config {
       .filter((x) => Number.isFinite(x) && x > 0 && x < 100),
     safeBufferHf: num(env.SAFE_BUFFER_HF, 1.1),
     guardSuggestHf: num(env.GUARD_SUGGEST_HF, 1.25),
+    deliveryScan: scanMode(env.DELIVERY_SCAN),
     anthropicKey: env.ANTHROPIC_API_KEY?.trim() || null,
     summaryModel: env.SUMMARY_MODEL ?? "claude-haiku-5-5",
   };

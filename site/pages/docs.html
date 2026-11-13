@@ -32,6 +32,7 @@ PAYMENT-REQUIRED: eyJ4NDAyVmVyc2lvbiI6Mi…   (base64 JSON, same as the body)
 
   <h2 id="receipts">Receipts and response hashes</h2>
   <p>Every paid <code>200</code> body is canonical JSON (object keys sorted, no whitespace). Its SHA-256 is in <code>X-Response-SHA256</code> (hex) and <code>Content-Digest</code> (RFC 9530). The settlement result, including the transaction hash, is in <code>PAYMENT-RESPONSE</code>. Keep all three and the call is reproducible evidence of what you paid for and what you got.</p>
+  <p>Before a result is released or any payment settles, it passes the same delivery check x402Fi's gateway runs (AgentWormhole's rules, an offline scan for malformed bodies and prompt-injection text). A result that fails is not released and you are not charged. <code>X-Delivery-Scan</code> reports the outcome. The check catches careless injection; it does not certify a response.</p>
 
   <h2 id="preflight">GET /v1/preflight</h2>
   <p>One call before a swap into or out of a Stock Token. Returns <code>GO</code>, <code>CAUTION</code> or <code>STOP</code>: <code>STOP</code> if any STOP rule fires, <code>CAUTION</code> if any CAUTION rule fires, <code>GO</code> only when every check passes. The facts are always included, so you can ignore the verdict and use the data.</p>
