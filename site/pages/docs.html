@@ -70,6 +70,7 @@ PAYMENT-REQUIRED: eyJ4NDAyVmVyc2lvbiI6Mi…   (base64 JSON, same as the body)
     <li><strong>gap_down_20 / gap_down_40</strong> — 20% and 40% below the oracle price.</li>
     <li><strong>gap_up_20 / gap_up_40</strong> — on the weekend report, and whenever the debt is not USDG.</li>
   </ul>
+  <p>Each report also carries <code>market.nextRegularOpen</code> (the next 09:30 ET open, holiday-aware: the reopen these scenarios describe) and <code>market.feedsResumeAt</code> (when 24/5 Chainlink feeds resume). Each position carries <code>corporateAction</code>: a pending multiplier change from the Robinhood registry or the token contract, its effective time, and <code>effectiveBeforeReopen</code> when it lands before that open.</p>
   <p>The weekend report (<code>/v1/reopen-risk/weekend</code>, $0.10) adds a short factual summary. When Guard is off and a scenario falls below 1.10, the position carries <code>suggestedGuard</code> as plain data, to be set by the owner in Longbow. A wallet with no positions returns <code>200</code> with <code>positions: []</code>. A number that cannot be computed is <code>null</code> with a note; it is never guessed. Information only; model risk applies.</p>
 
   <h2 id="pricing">Pricing</h2>

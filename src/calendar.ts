@@ -100,3 +100,32 @@ export function sessionAt(at: Date): Session {
 export function isFeedFreezeSession(s: Session): boolean {
   return s === "weekend" || s === "closed";
 }
+
+/**
+ * The next time the market reopens after `from`, scanning forward on a 15-minute grid
+ * (sessions start on :00/:30 ET, and ET is a whole-hour offset from UTC, so the grid hits
+ * every boundary exactly). Returns null past the holiday table or beyond 14 days.
+ *  - sessionOpen: the first instant in a 24/5 session (overnight/extended/regular), when
+ *    Chainlink Stock Token feeds resume. Equals `from` if already in session.
+ *  - regularOpen: the next 09:30 ET regular open strictly after `from`'s current regular session.
+ */
+export function nextOpens(from: Date): { sessionOpen: Date | null; regularOpen: Date | null } {
+  const STEP = 15 * 60_000;
+  const start = Math.ceil(from.getTime() / STEP) * STEP;
+  const inRegularNow = sessionAt(from) === "regular";
+  let sessionOpen: Date | null = isFeedFreezeSession(sessionAt(from)) ? null : from;
+  let regularOpen: Date | null = null;
+  let leftRegular = !inRegularNow;
+  for (let t = start; t <= from.getTime() + 14 * 86_400_000; t += STEP) {
+    const d = new Date(t);
+    if (!holidayTableCovers(d)) break;
+    const s = sessionAt(d);
+    if (!sessionOpen && !isFeedFreezeSession(s)) sessionOpen = d;
+    if (s !== "regular") leftRegular = true;
+    else if (leftRegular) {
+      regularOpen = d;
+      break;
+    }
+  }
+  return { sessionOpen, regularOpen };
+}

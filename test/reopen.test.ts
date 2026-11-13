@@ -1,6 +1,8 @@
 import { describe, expect, it, vi } from "vitest";
 import { ALLOWED_TOOLS, LongbowReader, McpClient, ToolNotAllowedError, parseRpc } from "../src/data/longbow";
-import { computeReopen, oracleKind, type Deps } from "../src/handlers";
+import { computeReopen, oracleKind, pendingMultiplier, type Deps } from "../src/handlers";
+import { nextOpens } from "../src/calendar";
+import { tokenState } from "./fixtures";
 import { buildReopen, scenarioAt, templateSummary, type PositionFacts } from "../src/reopen";
 import { isAcceptableSummary, weekendSummary } from "../src/summary";
 import { loadConfig } from "../src/env";
@@ -29,6 +31,7 @@ const fact = (over: Partial<PositionFacts> = {}): PositionFacts => ({
   chainlink: { price: 621.7565, updatedAt: 1 },
   weekendFreeze: true,
   dexPrice: 623.6106,
+  multiplier: null,
   ...over,
 });
 
@@ -187,5 +190,62 @@ describe("weekend summary", () => {
   });
   it("template is itself advice-free", () => {
     expect(isAcceptableSummary(templateSummary(report))).toBe(true);
+  });
+});
+
+describe("next reopen times", () => {
+  const at = (iso: string) => nextOpens(new Date(iso));
+  it("Saturday → feeds resume Sunday 20:00 ET, regular open Monday 09:30 ET", () => {
+    const r = at("2026-11-14T17:00:00Z");
+    expect(r.sessionOpen?.toISOString()).toBe("2026-11-16T01:00:00.000Z");
+    expect(r.regularOpen?.toISOString()).toBe("2026-11-16T14:30:00.000Z");
+  });
+  it("Thanksgiving: regular open is Friday 09:30 ET (early-close day)", () => {
+    expect(at("2026-11-26T16:00:00Z").regularOpen?.toISOString()).toBe("2026-11-27T14:30:00.000Z");
+  });
+  it("Good Friday 2027 weekend → Monday 2027-03-29 09:30 ET (EDT)", () => {
+    expect(at("2027-03-26T15:00:00Z").regularOpen?.toISOString()).toBe("2027-03-29T13:30:00.000Z");
+  });
+  it("in the regular session → next day's open; feeds already live", () => {
+    const from = new Date("2026-11-11T16:00:00Z");
+    const r = nextOpens(from);
+    expect(r.sessionOpen).toBe(from);
+    expect(r.regularOpen?.toISOString()).toBe("2026-11-12T14:30:00.000Z");
+  });
+});
+
+describe("pending multiplier on Reopen Risk collateral", () => {
+  const now = new Date("2026-11-14T17:00:00Z");
+  it("reads the registry first", () => {
+    const a = asset({ pendingMultiplier: "2.0", pendingMultiplierEffectiveTime: "2026-11-16T13:00:00Z" });
+    expect(pendingMultiplier(a, null, now)).toMatchObject({ pending: "2.0", effectiveAt: "2026-11-16T13:00:00Z", source: "registry" });
+  });
+  it("falls back to the token's onchain newUIMultiplier", () => {
+    const t = tokenState({ newUIMultiplier: 2n * 10n ** 18n, effectiveAt: BigInt(Math.floor(now.getTime() / 1000) + 3600) });
+    expect(pendingMultiplier(asset(), t, now)).toMatchObject({ pending: "2.0", source: "onchain" });
+  });
+  it("none pending → null; not a Robinhood Stock Token → unavailable", () => {
+    expect(pendingMultiplier(asset(), tokenState(), now)).toBeNull();
+    expect(pendingMultiplier(null, null, now)).toBe("unavailable");
+  });
+  it("report flags a change effective before the next regular open", () => {
+    const r = base([fact({ multiplier: { current: "1.0", pending: "2.0", effectiveAt: "2026-11-16T13:00:00Z", source: "registry" } })]);
+    expect(r.market.nextRegularOpen).toBe("2026-11-16T14:30:00.000Z");
+    expect(r.positions[0]!.corporateAction).toMatchObject({ pendingMultiplier: "2.0", effectiveBeforeReopen: true });
+    expect(templateSummary(r)).toMatch(/multiplier change to 2\.0 is pending/);
+    expect(templateSummary(r)).toMatch(/Next regular open: 2026-11-16T14:30:00\.000Z/);
+  });
+  it("computeReopen surfaces a registry pending multiplier for canonical collateral", async () => {
+    const META = "0xc0d6457c16cc70d6790dd43521c899c87ce02f35";
+    const cfg = loadConfig({ PAY_TO: "0xc32A9e2f1092F1D57D3267C2E70b80DA9De06D59" });
+    const d: Deps = {
+      cfg,
+      rh: fakeRh([asset({ tokenSymbol: "META", deployments: [{ contractAddress: META, chainId: 4663 }], pendingMultiplier: "1.5", pendingMultiplierEffectiveTime: "2026-11-16T13:00:00Z" })]).api,
+      chain: fakeChain(),
+      longbow: fakeLongbow([lbPosition()], { enrolled: false, status: null, config: null }, [{ symbol: "META", marketId: lbPosition().marketId, collateralAddress: META, loan: "USDG", oracleLabel: "Chainlink META/USD", maxLTV: 0.625 }] as never),
+      now: () => now,
+    };
+    const r = await computeReopen({ wallet: "0xc32A9e2f1092F1D57D3267C2E70b80DA9De06D59", report: "snapshot" }, d);
+    expect(r.positions[0]!.corporateAction).toMatchObject({ pendingMultiplier: "1.5", effectiveBeforeReopen: true, source: "registry" });
   });
 });

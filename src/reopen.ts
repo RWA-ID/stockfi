@@ -7,7 +7,7 @@
  * get_position output). With debt fixed in USDG, health scales linearly with
  * the collateral price, so a scenario price P gives HF × P / currentPrice.
  */
-import type { Session } from "./calendar";
+import { nextOpens, type Session } from "./calendar";
 import { REOPEN_DISCLAIMER } from "./disclaimers";
 import type { LbGuard, LbPosition } from "./data/longbow";
 
@@ -19,6 +19,8 @@ export interface PositionFacts {
   chainlink: { price: number; updatedAt: number } | null;
   weekendFreeze: boolean;
   dexPrice: number | null;
+  /** Pending corporate-action multiplier on the collateral; null = none, "unavailable" = not a Robinhood Stock Token or unreadable. */
+  multiplier: { current: string; pending: string; effectiveAt: string | null; source: "registry" | "onchain" } | null | "unavailable";
 }
 
 export interface ReopenInput {
@@ -45,6 +47,7 @@ export interface Scenario {
 }
 
 const hf = (x: number) => x.toFixed(2);
+const iso = (d: Date | null) => (d ? d.toISOString() : null);
 const px = (x: number) => x.toFixed(4);
 
 export function scenarioAt(name: string, health: number | null, current: number | null, price: number | null, note?: string): Scenario {
@@ -60,6 +63,8 @@ export function scenarioAt(name: string, health: number | null, current: number 
 }
 
 export function buildReopen(input: ReopenInput) {
+  const opens = nextOpens(input.asOf);
+  const reopenAt = opens.regularOpen;
   const guardOff = input.guard !== "unavailable" && !input.guard.enrolled;
   const positions = input.positions.map((f) => {
     const p = f.position;
@@ -103,6 +108,20 @@ export function buildReopen(input: ReopenInput) {
         weekendFreeze: f.weekendFreeze,
       },
       dexPrice: f.dexPrice !== null ? px(f.dexPrice) : null,
+      corporateAction:
+        f.multiplier === "unavailable"
+          ? { pendingMultiplier: "unavailable" as const }
+          : f.multiplier === null
+            ? { pendingMultiplier: null }
+            : {
+                pendingMultiplier: f.multiplier.pending,
+                currentMultiplier: f.multiplier.current,
+                effectiveAt: f.multiplier.effectiveAt,
+                // A change landing before the next regular open reprices the collateral into the gap.
+                effectiveBeforeReopen: f.multiplier.effectiveAt && reopenAt ? new Date(f.multiplier.effectiveAt) <= reopenAt : null,
+                source: f.multiplier.source,
+                note: "A multiplier change alters shares per token; Chainlink prices already include the multiplier once it takes effect.",
+              },
       scenarios,
       ...(guardOff && breaches
         ? {
@@ -119,6 +138,13 @@ export function buildReopen(input: ReopenInput) {
     wallet: input.wallet,
     asOf: input.asOf.toISOString(),
     session: input.session,
+    market: {
+      session: input.session,
+      // When Chainlink 24/5 Stock Token feeds resume (equals asOf when already in session).
+      feedsResumeAt: iso(opens.sessionOpen),
+      // Next 09:30 ET regular open: the "Monday reopen" these scenarios describe (after holidays too).
+      nextRegularOpen: iso(opens.regularOpen),
+    },
     report: input.report,
     source: input.source === "mcp" ? "longbow-mcp" : "onchain-morpho",
     positions,
@@ -149,8 +175,12 @@ export function templateSummary(r: ReturnType<typeof buildReopen>): string {
       (p.oracle.weekendFreeze ? ", Chainlink feed in its expected 24/5 freeze" : "") +
       (dex?.healthFactor ? `; at today's DEX price it would read ${dex.healthFactor}` : "") +
       (worst ? `; under the ${worst.name.replace("gap_down_", "")}% gap-down sample it would read ${worst.healthFactor}${worst.liquidatable ? " (below 1.00)" : ""}` : "") +
-      `. Guard ${p.guard.enrolled === true ? "enrolled" : p.guard.enrolled === false ? "not enrolled" : "status unavailable"}.`
+      `. Guard ${p.guard.enrolled === true ? "enrolled" : p.guard.enrolled === false ? "not enrolled" : "status unavailable"}.` +
+      ("effectiveAt" in p.corporateAction
+        ? ` A multiplier change to ${p.corporateAction.pendingMultiplier} is pending, effective ${p.corporateAction.effectiveAt ?? "at an unannounced time"}.`
+        : "")
     );
   });
-  return `${parts.join(" ")} Scenarios are model outputs, not forecasts. Information only.`;
+  const reopen = r.market.nextRegularOpen ? ` Next regular open: ${r.market.nextRegularOpen}.` : "";
+  return `${parts.join(" ")}${reopen} Scenarios are model outputs, not forecasts. Information only.`;
 }

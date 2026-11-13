@@ -8,8 +8,8 @@ import { isFeedFreezeSession, sessionAt } from "./calendar";
 import type { Config } from "./env";
 import { feedFor, type ChainReader, type FeedRead, type Maybe, type PoolRead, type QuoteRead, type TokenState } from "./data/chain";
 import type { LongbowSource } from "./data/longbow";
-import { deploymentOn4663, resolveCanonical, type RhQuote, type RobinhoodApi } from "./data/robinhood";
-import { runPreflight } from "./preflight";
+import { deploymentOn4663, resolveCanonical, type RhAsset, type RhQuote, type RobinhoodApi } from "./data/robinhood";
+import { runPreflight, wadToString } from "./preflight";
 import { buildReopen, type PositionFacts } from "./reopen";
 import { weekendSummary } from "./summary";
 
@@ -135,7 +135,13 @@ export async function computeReopen(q: { wallet: Address; report: "snapshot" | "
   if (posR.status === "rejected") throw new Error("Longbow positions unavailable (MCP and onchain fallback both failed)");
   const { positions, source } = posR.value;
   const guard = guardR.status === "fulfilled" ? guardR.value : "unavailable";
-  const canonicalSet = new Set(assetsR.status === "fulfilled" ? assetsR.value.map(deploymentOn4663).filter((x): x is Address => !!x) : []);
+  const assets = assetsR.status === "fulfilled" ? assetsR.value : [];
+  const byToken = new Map<Address, RhAsset>();
+  for (const a of assets) {
+    const addr = deploymentOn4663(a);
+    if (addr) byToken.set(addr, a);
+  }
+  const canonicalSet = new Set(byToken.keys());
   const meta = new Map(d.longbow.markets().map((m) => [m.marketId.toLowerCase(), m]));
 
   let excluded = 0;
@@ -150,9 +156,10 @@ export async function computeReopen(q: { wallet: Address; report: "snapshot" | "
         return null;
       }
       const f = ok.feedSymbol ? feedFor(ok.feedSymbol) : null;
-      const [fr, pr] = await Promise.allSettled([
+      const [fr, pr, tr] = await Promise.allSettled([
         f ? d.chain.feed(f.proxy, f.decimals) : Promise.resolve(null),
         (canonical ? Promise.resolve(18) : d.chain.decimals(token)).then((dec) => d.chain.pools(token, dec)),
+        canonical ? d.chain.tokenState(token) : Promise.resolve(null),
       ]);
       const chainlink = fr.status === "fulfilled" ? fr.value : null;
       const pools = pr.status === "fulfilled" ? pr.value : [];
@@ -163,6 +170,7 @@ export async function computeReopen(q: { wallet: Address; report: "snapshot" | "
         chainlink,
         weekendFreeze: ok.kind === "chainlink-24/5" && isFeedFreezeSession(session),
         dexPrice: pools[0]?.mid ?? null,
+        multiplier: pendingMultiplier(byToken.get(token) ?? null, tr.status === "fulfilled" ? tr.value : null, now),
       };
     }),
   );
@@ -183,4 +191,23 @@ export async function computeReopen(q: { wallet: Address; report: "snapshot" | "
   if (q.report !== "weekend") return report;
   const s = await weekendSummary(report, { apiKey: d.cfg.anthropicKey, model: d.cfg.summaryModel });
   return { ...report, ...s };
+}
+
+/** Pending multiplier from the Robinhood registry first, then the token's onchain view. */
+export function pendingMultiplier(asset: RhAsset | null, tok: TokenState | null, now: Date): PositionFacts["multiplier"] {
+  if (!asset) return "unavailable";
+  if (asset.pendingMultiplier) {
+    return { current: asset.currentMultiplier, pending: asset.pendingMultiplier, effectiveAt: asset.pendingMultiplierEffectiveTime ?? null, source: "registry" };
+  }
+  if (
+    tok &&
+    typeof tok.uiMultiplier === "bigint" &&
+    typeof tok.newUIMultiplier === "bigint" &&
+    typeof tok.effectiveAt === "bigint" &&
+    tok.newUIMultiplier !== tok.uiMultiplier &&
+    Number(tok.effectiveAt) * 1000 > now.getTime()
+  ) {
+    return { current: wadToString(tok.uiMultiplier), pending: wadToString(tok.newUIMultiplier), effectiveAt: new Date(Number(tok.effectiveAt) * 1000).toISOString(), source: "onchain" };
+  }
+  return null;
 }

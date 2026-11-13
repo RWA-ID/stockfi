@@ -15,7 +15,7 @@ const SYSTEM = `You write a short factual summary of a weekend-gap stress report
 Rules:
 - Use only the numbers in the JSON you are given. Never invent, round differently, or add figures.
 - 2 to 4 plain sentences, under 90 words, no lists, no headings, no markdown.
-- State facts: current health factor, whether the Chainlink feed is in its expected 24/5 weekend freeze, the mark-to-DEX reading, and the lowest gap-down reading.
+- State facts: current health factor, whether the Chainlink feed is in its expected 24/5 weekend freeze, the mark-to-DEX reading, the lowest gap-down reading, the next regular open, and any pending multiplier change with its effective time.
 - Never give advice or a recommendation. Never tell anyone to repay, add collateral, borrow, buy, sell, hold or enable anything. Never say "should", "recommend", "consider", "safe" or "guaranteed".
 - Scenarios are model outputs, not forecasts. End with: "Information only."`;
 
@@ -50,6 +50,7 @@ export async function weekendSummary(report: Report, deps: SummaryDeps): Promise
     weekendFreeze: p.oracle.weekendFreeze,
     guardEnrolled: p.guard.enrolled,
     scenarios: p.scenarios.map((s) => ({ name: s.name, healthFactor: s.healthFactor, liquidatable: s.liquidatable ?? false })),
+    corporateAction: p.corporateAction,
   }));
 
   try {
@@ -59,7 +60,7 @@ export async function weekendSummary(report: Report, deps: SummaryDeps): Promise
       max_tokens: 600,
       output_config: { effort: "low" },
       system: SYSTEM,
-      messages: [{ role: "user", content: `Session: ${report.session}\nPositions JSON:\n${JSON.stringify(facts)}` }],
+      messages: [{ role: "user", content: `Session: ${report.session}\nNext regular open (UTC): ${report.market.nextRegularOpen ?? "unknown"}\nPositions JSON:\n${JSON.stringify(facts)}` }],
     });
     if (res.stop_reason !== "end_turn") return fallback;
     const text = res.content

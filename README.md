@@ -42,6 +42,8 @@ buyer ──GET──▶ stockfi.trade/v1/…  ──400 if the input is bad (ne
 | Longbow public MCP `mcp.longbow.finance/mcp` | **Read tools only**: `list_markets`, `get_market`, `get_position`, `get_guard` (confirmed against `tools/list` on 2026-11-12, server v0.3.0). The client refuses every other tool name before sending a request; tests prove a full run never calls a `build_*`, `plan_*`, `simulate_*` or `broadcast_*` tool. Fallback: Morpho Blue reads (`0x9D53…1010`) for the markets in `src/data/longbow-markets.json` (`node scripts/sync-longbow-markets.mjs`). |
 | Anthropic (`claude-haiku-5-5`) | Only the prose `summary` of the $0.10 weekend report, written from figures already computed. It is never sent a wallet address, never decides a verdict, and falls back to a deterministic template on any error, refusal or advice-sounding output. |
 
+Each Reopen Risk report includes `market.nextRegularOpen` / `market.feedsResumeAt` (from the NYSE calendar in `src/calendar.ts`; the holiday table runs through 2027) and, per position, `corporateAction` (pending multiplier from `/rhj/assets`, else the token's `newUIMultiplier`/`effectiveAt`; `unavailable` for collateral that is not a Robinhood Stock Token).
+
 Health factor (verified against live `get_position`): `collateralValue × LLTV / debt`. With USDG debt it scales linearly with the collateral price. The stress gaps of 20% and 40% come from the brief (`STRESS_PCTS`). Longbow's risk page renders client-side and could not be machine-read at build time, so recheck its published figures when you change them.
 
 ## Run locally
