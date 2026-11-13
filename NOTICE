@@ -3,6 +3,9 @@ Copyright 2026 Only Buy Bitcoin LLC
 
 This product is licensed under the Apache License, Version 2.0.
 
+This product includes software developed by AgentWormhole
+(wormhole-x402, https://github.com/runningoffcode/agent-wormhole), Apache-2.0.
+
 "Robinhood Chain" and the Robinhood Chain logo (public/brand/) are marks of
 their owner, used unaltered under the Robinhood Chain brand guidelines to
 identify the network this software reads. They are not covered by this
