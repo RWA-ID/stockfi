@@ -153,6 +153,13 @@ h1 { font-size: 52px; font-weight: 700; letter-spacing: -1px; line-height: 1.15;
 .price-chips { display: flex; gap: 8px; flex-wrap: wrap; }
 .price-chip { display: inline-flex; align-items: baseline; gap: 6px; padding: 4px 12px; border-radius: 999px; background: var(--white-soft); border: 1px solid var(--line); font-size: 11px; color: var(--muted-dark); }
 .price-chip b { font-family: var(--font-display); font-size: 15px; color: var(--ink); }
+.price-chip img { width: 14px; height: 14px; align-self: center; }
+.step .ic-token { flex: none; width: 32px; height: 32px; display: block; }
+.pricing-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.pricing-head h2, .pricing-head .kicker { margin-bottom: 0; }
+.usdg-mark { height: 32px; width: auto; display: block; }
+.mobile-pricing .usdg-mark { height: 34px; }
+.built-on .usdg-foot { height: 35px; margin: -8px 0; }
 .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin: 18px 0 28px; }
 .step { display: flex; gap: 14px; align-items: flex-start; }
 .step .ic { flex: none; width: 32px; height: 32px; border-radius: 50%; background: var(--lime-fab); display: grid; place-items: center; }

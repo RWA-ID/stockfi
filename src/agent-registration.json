@@ -1,0 +1,47 @@
+{
+  "type": "https://eips.ethereum.org/EIPS/eip-8004#registration-v1",
+  "name": "StockFi",
+  "description": "Read-only x402 APIs for Robinhood Chain Stock Tokens, paid per call in USDG on chain 4663. Preflight returns GO, CAUTION or STOP before a swap; Reopen Risk projects a Longbow loan's health factor at Monday's reopen. $0.02 to $0.10 per call. Data only: never holds funds, signs or trades. Not investment advice. Payee name: stockfi.hoodfi.eth.",
+  "image": "https://stockfi.trade/icon-512.png",
+  "services": [
+    {
+      "name": "web",
+      "endpoint": "https://stockfi.trade/"
+    },
+    {
+      "name": "openapi",
+      "endpoint": "https://stockfi.trade/openapi.json"
+    },
+    {
+      "name": "preflight",
+      "version": "v1",
+      "endpoint": "https://stockfi.trade/v1/preflight",
+      "description": "GET ?symbol= or ?token=, x402 exact scheme: $0.02 USDG on Robinhood Chain (eip155:4663). Add sizeUsdg (or use /v1/preflight/quote) for a Uniswap v3 route quote at $0.05."
+    },
+    {
+      "name": "reopen-risk",
+      "version": "v1",
+      "endpoint": "https://stockfi.trade/v1/reopen-risk",
+      "description": "GET ?wallet=0x…, x402 exact scheme: $0.03 USDG snapshot; /v1/reopen-risk/weekend is the $0.10 full weekend report."
+    },
+    {
+      "name": "x402fi",
+      "endpoint": "https://x402fi.dev/market/stockfi-trade",
+      "description": "Same endpoints listed on x402Fi, the x402 marketplace on Robinhood Chain."
+    },
+    {
+      "name": "agentWallet",
+      "endpoint": "eip155:4663:0xc32A9e2f1092F1D57D3267C2E70b80DA9De06D59"
+    },
+    {
+      "name": "ENS",
+      "version": "v1",
+      "endpoint": "stockfi.hoodfi.eth",
+      "description": "Verified payee (payee-name): Robinhood Chain address = agentWallet, org.x402.origins = https://x402fi.dev https://stockfi.trade."
+    }
+  ],
+  "x402Support": true,
+  "active": true,
+  "supportedTrust": [],
+  "registrations": []
+}

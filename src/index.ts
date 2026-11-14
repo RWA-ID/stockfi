@@ -5,6 +5,7 @@ import { LongbowReader, McpClient } from "./data/longbow";
 import { RobinhoodApi } from "./data/robinhood";
 import { BadRequest, computePreflight, computeReopen, parsePreflight, parseReopen, type Deps } from "./handlers";
 import { openApi } from "./openapi";
+import agentRegistration from "./agent-registration.json";
 import { EXPOSE_HEADERS, HttpFacilitator, handlePaid, type Facilitator } from "./x402";
 import { SITE_DISCLAIMER } from "./disclaimers";
 
@@ -64,6 +65,12 @@ export function createApp(app: AppDeps) {
 
   h.get("/healthz", (c) => c.json({ ok: true }));
   h.get("/openapi.json", (c) => c.json(openApi(loadConfig(c.env))));
+  // ERC-8004 agent registration (8004scan verifies the `web` domain serves it).
+  h.get("/.well-known/agent-registration.json", (c) => {
+    c.header("access-control-allow-origin", "*");
+    c.header("cache-control", "public, max-age=300");
+    return c.json(agentRegistration);
+  });
 
   const paid = async (
     c: { req: { raw: Request; url: string }; env: Env },
