@@ -166,6 +166,8 @@ h1 { font-size: 52px; font-weight: 700; letter-spacing: -1px; line-height: 1.15;
 .step h3 { margin: 0 0 2px; font-size: 16px; font-weight: 700; }
 .step p { margin: 0; font-size: 13px; color: var(--muted-dark); }
 .band-note { font-size: 13px; color: var(--muted-dark); margin: 0; }
+.scan-link { font-weight: 600; color: var(--ink); white-space: nowrap; }
+.scan-link img { width: 16px; height: 16px; border-radius: 4px; display: inline-block; vertical-align: -3px; margin-right: 5px; }
 
 /* ---- Result pages ---- */
 .result-head { margin: 8px 0 14px; }
