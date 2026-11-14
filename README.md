@@ -1,6 +1,6 @@
 # StockFi
 
-**[stockfi.trade](https://stockfi.trade)**: two read-only APIs for Robinhood Chain Stock Tokens, paid per request in USDG over [x402](https://x402.org) and listed on [x402Fi](https://x402fi.dev), the dedicated x402 marketplace on Robinhood Chain.
+**[stockfi.trade](https://stockfi.trade)**: two read-only APIs for Robinhood Chain Stock Tokens, paid per request in USDG over [x402](https://x402.org) and listed on [x402Fi](https://x402fi.dev), the dedicated x402 marketplace on Robinhood Chain. Also registered as ERC-8004 agent [#25741 on 8004scan](https://8004scan.io/agents/robinhood-chain/25741).
 
 | Endpoint | What it returns | Price |
 | --- | --- | --- |
@@ -95,6 +95,14 @@ The Worker runs first on every request: `http://` and `www.` redirect to `https:
 3. Payout = `PAY_TO`; attach the payee name (records: `origins` = `https://stockfi.trade`, `https://x402fi.dev`; chain 4663 address = `PAY_TO`).
 4. Copy the listing's upstream secret into `wrangler secret put UPSTREAM_KEY`.
 5. Check [x402fi.dev/discovery](https://x402fi.dev/discovery) and `/api/discovery/resources`, then pay a real $0.02 Preflight and a $0.03 Reopen Risk and open the public receipt.
+
+## ERC-8004 / 8004scan
+
+StockFi is ERC-8004 agent **#25741** on Robinhood Chain: [8004scan.io/agents/robinhood-chain/25741](https://8004scan.io/agents/robinhood-chain/25741).
+
+- IdentityRegistry `0x8004A169FB4a3325136EB29fA0ceB6D2e539a432` (chain 4663). Registered by `PAY_TO` (tx `0x418587c44a553b003d18e6fd94eae4fe5ffa9c1cf4b8cb9d16da26cf33105bfc`), so the onchain `agentWallet` is `PAY_TO`. Transferring the agent resets `agentWallet` to zero.
+- `agentURI` = `https://stockfi.trade/.well-known/agent-registration.json`, served by the Worker from `src/agent-registration.json`. Editing that file and deploying updates the listing; no transaction is needed. The file lives on the same domain as the `web` service, which is what proves domain control.
+- 8004scan collapses `services` by name (the last entry wins), so keep one `web` and one `ENS` entry.
 
 ## License
 
