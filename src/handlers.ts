@@ -9,7 +9,7 @@ import type { Config } from "./env";
 import { feedFor, type ChainReader, type FeedRead, type Maybe, type PoolRead, type QuoteRead, type TokenState } from "./data/chain";
 import type { LongbowSource } from "./data/longbow";
 import { deploymentOn4663, resolveCanonical, type RhAsset, type RhQuote, type RobinhoodApi } from "./data/robinhood";
-import { runPreflight, wadToString } from "./preflight";
+import { multiplierReadable, runPreflight, wadToString } from "./preflight";
 import { buildReopen, type PositionFacts } from "./reopen";
 import { weekendSummary } from "./summary";
 
@@ -193,14 +193,17 @@ export async function computeReopen(q: { wallet: Address; report: "snapshot" | "
   return { ...report, ...s };
 }
 
-/** Pending multiplier from the Robinhood registry first, then the token's onchain view. */
+/**
+ * Pending multiplier from the Robinhood registry first, then the token's onchain view.
+ * An unread onchain field means "unavailable", never "none pending".
+ */
 export function pendingMultiplier(asset: RhAsset | null, tok: TokenState | null, now: Date): PositionFacts["multiplier"] {
   if (!asset) return "unavailable";
   if (asset.pendingMultiplier) {
     return { current: asset.currentMultiplier, pending: asset.pendingMultiplier, effectiveAt: asset.pendingMultiplierEffectiveTime ?? null, source: "registry" };
   }
+  if (!tok || !multiplierReadable(tok)) return "unavailable";
   if (
-    tok &&
     typeof tok.uiMultiplier === "bigint" &&
     typeof tok.newUIMultiplier === "bigint" &&
     typeof tok.effectiveAt === "bigint" &&

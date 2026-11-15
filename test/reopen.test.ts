@@ -228,6 +228,16 @@ describe("pending multiplier on Reopen Risk collateral", () => {
     expect(pendingMultiplier(asset(), tokenState(), now)).toBeNull();
     expect(pendingMultiplier(null, null, now)).toBe("unavailable");
   });
+  it("unreadable onchain multiplier → unavailable, not 'none pending'", () => {
+    expect(pendingMultiplier(asset(), null, now)).toBe("unavailable");
+    for (const field of ["uiMultiplier", "newUIMultiplier", "effectiveAt"] as const) {
+      expect(pendingMultiplier(asset(), tokenState({ [field]: "unavailable" }), now)).toBe("unavailable");
+    }
+  });
+  it("registry pending change still wins over an unreadable onchain read", () => {
+    const a = asset({ pendingMultiplier: "2.0" });
+    expect(pendingMultiplier(a, tokenState({ effectiveAt: "unavailable" }), now)).toMatchObject({ source: "registry" });
+  });
   it("report flags a change effective before the next regular open", () => {
     const r = base([fact({ multiplier: { current: "1.0", pending: "2.0", effectiveAt: "2026-11-16T13:00:00Z", source: "registry" } })]);
     expect(r.market.nextRegularOpen).toBe("2026-11-16T14:30:00.000Z");

@@ -149,6 +149,19 @@ describe("Preflight verdicts", () => {
     expect(codes(runPreflight(facts({ token: tokenState({ oraclePaused: true }) })))).toEqual(["ORACLE_PAUSED"]);
   });
 
+  it.each(["uiMultiplier", "newUIMultiplier", "effectiveAt"] as const)("unreadable %s → CAUTION DATA_UNAVAILABLE, never GO", (field) => {
+    const r = runPreflight(facts({ token: tokenState({ [field]: "unavailable" }) }));
+    expect(r.verdict).toBe("CAUTION");
+    expect(codes(r)).toEqual(["DATA_UNAVAILABLE"]);
+    expect(r.reasons[0]?.detail).toMatch(/multiplier/);
+  });
+
+  it("unreadable onchain multiplier with a registry pending change → PENDING_MULTIPLIER only", () => {
+    const a = asset({ pendingMultiplier: "2.0", pendingMultiplierEffectiveTime: "2026-11-20T13:00:00Z" });
+    const r = runPreflight(facts({ assets: [a], token: tokenState({ newUIMultiplier: "unavailable" }) }));
+    expect(codes(r)).toEqual(["PENDING_MULTIPLIER"]);
+  });
+
   it("unreadable required data is never a pass", () => {
     const r = runPreflight(facts({ quote: "unavailable", feed: "unavailable", pools: "unavailable" }));
     expect(r.verdict).toBe("CAUTION");

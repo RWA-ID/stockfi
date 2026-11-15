@@ -121,6 +121,9 @@ export function runPreflight(f: PreflightFacts) {
   // 4. Pending multiplier
   const tok = f.token === "unavailable" ? null : f.token;
   if (!tok) caution("DATA_UNAVAILABLE", "Onchain token state could not be read for this call.");
+  else if (!asset.pendingMultiplier && !multiplierReadable(tok)) {
+    caution("DATA_UNAVAILABLE", "Onchain multiplier state could not be fully read for this call; a pending split or multiplier change was not ruled out.");
+  }
   const onchainPending =
     tok &&
     typeof tok.uiMultiplier === "bigint" &&
@@ -253,6 +256,11 @@ export interface PreflightBody {
 function finish(reasons: Reason[], body: PreflightBody): PreflightBody & { verdict: Verdict; reasons: Reason[]; disclaimer: string } {
   const verdict: Verdict = reasons.some((r) => r.severity === "STOP") ? "STOP" : reasons.length ? "CAUTION" : "GO";
   return { verdict, reasons, ...body, disclaimer: PREFLIGHT_DISCLAIMER };
+}
+
+/** True when every field needed to rule out an onchain multiplier change was read. */
+export function multiplierReadable(tok: TokenState): boolean {
+  return typeof tok.uiMultiplier === "bigint" && typeof tok.newUIMultiplier === "bigint" && typeof tok.effectiveAt === "bigint";
 }
 
 export function wadToString(w: bigint): string {
