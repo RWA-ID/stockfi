@@ -1,6 +1,6 @@
 {
   "source": "https://mcp.longbow.finance/mcp",
-  "generatedAt": "2026-11-12T22:07:41.917Z",
+  "generatedAt": "2026-11-20T01:57:14.419Z",
   "markets": [
     {
       "symbol": "AAPL",
@@ -51,6 +51,14 @@
       "maxLTV": 0.625
     },
     {
+      "symbol": "ANT",
+      "marketId": "0xe4d2c0b014bebe73408e190eba2ed19719dc1bf479e4762a165208db86c7dc06",
+      "collateralAddress": "0xbbB6c29bCc3a1028A2B54310DF73F4F7A3bcB373",
+      "loan": "USDG",
+      "oracleLabel": "Uniswap V3 TWAP (ANT/USDG)",
+      "maxLTV": 0.385
+    },
+    {
       "symbol": "ASML",
       "marketId": "0xbe881499e682850931951c998e76cfbf38c7979b1beeae7cbbb97a39b3336a07",
       "collateralAddress": "0x47F93d52cBeC7C6D2CfC080e154002370a60dAEA",
@@ -73,6 +81,14 @@
       "loan": "USDG",
       "oracleLabel": "Chainlink BABA/USD",
       "maxLTV": 0.625
+    },
+    {
+      "symbol": "BE",
+      "marketId": "0xb8467396a47912a48ece74a6f1745edeb779034ebfe54a066ace6dd8f712329d",
+      "collateralAddress": "0x822CC93fFD030293E9842c30BBD678F530701867",
+      "loan": "USDG",
+      "oracleLabel": "Uniswap V3 TWAP (BE/USDG)",
+      "maxLTV": 0.385
     },
     {
       "symbol": "CASHCAT_LEGACY",
@@ -256,6 +272,14 @@
       "collateralAddress": "0xc72b96e0e48ecd4dc75e1e45396e26300bc39681",
       "loan": "USDG",
       "oracleLabel": "Chainlink INTC/USD",
+      "maxLTV": 0.625
+    },
+    {
+      "symbol": "IONQ",
+      "marketId": "0xc85eb4a69283ad402fbbb96e160416f2015e1ed2cb65484b1a905a5fc117f1d7",
+      "collateralAddress": "0x558378E000D634A36593E338eBacdd6207640EfE",
+      "loan": "USDG",
+      "oracleLabel": "Chainlink IONQ/USD",
       "maxLTV": 0.625
     },
     {
